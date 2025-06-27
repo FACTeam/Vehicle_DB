@@ -1,0 +1,82 @@
+Driver,Color,VIN,Vehicle  #,Mileage,Last Service,Service?,Calvin #,Make,Model,Title,Date_of_Service,Notes,Depts,Vehicle,Veh #,Current Mileage,Last LOF,Tire Condition IN 32nds,Overall condition,KBB Value,Year
+back row,NULL,1FDNF60H6JVA30777,30,44484,6/14/2023 0:00,Yes,GROUNDS,ford,f600,Y,NULL,NULL,grounds,2007 Ford Econoline Box,17,31317,30329,F-11 R-8,Average,Not Listed,1988
+back row,NULL,1FDNF60H6JVA30777,30,44484,6/14/2023 0:00,Yes,GROUNDS,ford,f600,Y,NULL,NULL,grounds,2002 Ford Econoline Box,19,61088,60534,F-4 R-10,Below Average,Not Listed,1988
+back row,NULL,1FDWE35L47DA26972,NULL,NULL,NULL,NULL,BOX,ford,econol,Y,NULL,NULL,facilities,2007 Ford Econoline Box,17,31317,30329,F-11 R-8,Average,Not Listed,2007
+back row,NULL,1FDWE35L47DA26972,NULL,NULL,NULL,NULL,BOX,ford,econol,Y,NULL,NULL,facilities,2002 Ford Econoline Box,19,61088,60534,F-4 R-10,Below Average,Not Listed,2007
+back row,NULL,1FDWE35L52HB44451,19,60534,6/13/2023 0:00,Yes,BOX,ford,econol,Y,NULL,NULL,facilities,2007 Ford Econoline Box,17,31317,30329,F-11 R-8,Average,Not Listed,0
+back row,NULL,1FDWE35L52HB44451,19,60534,6/13/2023 0:00,Yes,BOX,ford,econol,Y,NULL,NULL,facilities,2002 Ford Econoline Box,19,61088,60534,F-4 R-10,Below Average,Not Listed,0
+amanda harper,NULL,1FDWE4F68KDC06513,15,1903,2/1/2023 0:00,Yes,CD BOX,ford,econol,Y,NULL,NULL,c-dining,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2019
+none,NULL,1FMCU0F71FUA60257,#4,100819,5/17/2023 0:00,Yes,CS #4,ford,escape,Y,NULL,NULL,camp saf,Golf Carts,BS/Advancement,White,8323,NULL,NULL,NULL,2015
+none,NULL,1FMCU0F71FUA60257,#4,100819,5/17/2023 0:00,Yes,CS #4,ford,escape,Y,NULL,NULL,camp saf,OO7,BS/Advancement,White,8323,NULL,NULL,NULL,2015
+none,NULL,1FMCU0F71FUA60257,#4,100819,5/17/2023 0:00,Yes,CS #4,ford,escape,Y,NULL,NULL,camp saf,Fac #4,BS,Green EZ/Go,6377,NULL,NULL,NULL,2015
+none,NULL,1FMCU0F71FUA60257,#4,100819,5/17/2023 0:00,Yes,CS #4,ford,escape,Y,NULL,NULL,camp saf,Fac #8,BS,Green EZ/Go,6377,NULL,NULL,NULL,2015
+none,NULL,1FMCU0F71FUA60257,#4,100819,5/17/2023 0:00,Yes,CS #4,ford,escape,Y,NULL,NULL,camp saf,Fac #9,BS/Custodial/Emily,Burgundy,751,NULL,NULL,NULL,2015
+none,NULL,1FMCU0F73EUD08328,#1,131897,5/17/2023 0:00,Yes,CS #1,ford,escape,Y,NULL,NULL,camp saf,Golf Carts,BS/Advancement,White,8323,NULL,NULL,NULL,2014
+none,NULL,1FMCU0F73EUD08328,#1,131897,5/17/2023 0:00,Yes,CS #1,ford,escape,Y,NULL,NULL,camp saf,OO7,BS/Advancement,White,8323,NULL,NULL,NULL,2014
+none,NULL,1FMCU0F73EUD08328,#1,131897,5/17/2023 0:00,Yes,CS #1,ford,escape,Y,NULL,NULL,camp saf,Fac #4,BS,Green EZ/Go,6377,NULL,NULL,NULL,2014
+none,NULL,1FMCU0F73EUD08328,#1,131897,5/17/2023 0:00,Yes,CS #1,ford,escape,Y,NULL,NULL,camp saf,Fac #8,BS,Green EZ/Go,6377,NULL,NULL,NULL,2014
+none,NULL,1FMCU0F73EUD08328,#1,131897,5/17/2023 0:00,Yes,CS #1,ford,escape,Y,NULL,NULL,camp saf,Fac #9,BS/Custodial/Emily,Burgundy,751,NULL,NULL,NULL,2014
+none,NULL,1FMCU0F77FUC24224,#3,84773,5/17/2023 0:00,Yes,CS #3,ford,escape,Y,NULL,NULL,camp saf,Golf Carts,BS/Advancement,White,8323,NULL,NULL,NULL,2015
+none,NULL,1FMCU0F77FUC24224,#3,84773,5/17/2023 0:00,Yes,CS #3,ford,escape,Y,NULL,NULL,camp saf,OO7,BS/Advancement,White,8323,NULL,NULL,NULL,2015
+none,NULL,1FMCU0F77FUC24224,#3,84773,5/17/2023 0:00,Yes,CS #3,ford,escape,Y,NULL,NULL,camp saf,Fac #4,BS,Green EZ/Go,6377,NULL,NULL,NULL,2015
+none,NULL,1FMCU0F77FUC24224,#3,84773,5/17/2023 0:00,Yes,CS #3,ford,escape,Y,NULL,NULL,camp saf,Fac #8,BS,Green EZ/Go,6377,NULL,NULL,NULL,2015
+none,NULL,1FMCU0F77FUC24224,#3,84773,5/17/2023 0:00,Yes,CS #3,ford,escape,Y,NULL,NULL,camp saf,Fac #9,BS/Custodial/Emily,Burgundy,751,NULL,NULL,NULL,2015
+amanda harper,White,1FTNE1EW8BDA20664,44,14005,2/1/2023 0:00,Yes,CD,ford,econol,Y,NULL,NULL,c-dining,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2011
+handicap,NULL,1FTNE24L03HB89987,13,7894,11/8/2023 0:00,Yes,HANDICAP,ford,econol,Y,11/8/2023,full service and replaced blown left head light bulb.,building ser,2003 Ford E250 ECONOLINE,13,7934,7894,F-12 R-12,Average,"$7,734.00 ",2003
+john z,White,1FTNE2EW1EDA31614,10,19019,11/7/2023 0:00,Yes,10,ford,econol,Y,10/25/2023,r and r tail light bulbs,building ser,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2014
+john z,White,1FTNE2EW1EDA31614,10,19019,11/7/2023 0:00,Yes,10,ford,econol,Y,11/7/2023,full service and inspection,building ser,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2014
+joe,White,1FTNE2EW2BDB09118,3,108802,10/25/2023 0:00,Yes,3,ford,econol,Y,10/25/2023,service and oil change,building ser,2011 Ford Econoline,3,109612,108802,F-13 R-14,Below Average,"$7,509.00 ",2011
+perry,White,1FTYR1ZM1JKA59312,7,18863,4/4/2023 0:00,Yes,7,ford,transi,Y,NULL,NULL,building ser,2018 Ford Transit 250 Cargo,7,24121,18863,F-9 R-9,Above Average,"$29,593.00 ",2018
+daniel,White,1FTYR1ZM3GKA47834,4,25619,4/25/2023 0:00,Yes,4,ford,transi,Y,11/13/2023,replace battery and figure out electric draw,building ser,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2016
+ryan rooks,NULL,1GA2GYDG5A1137501,22,84696,7/25/2023 0:00,Yes,22,chevr,expres,Y,7/25/2023,"service, replace trailer light plug, replaced wiper blades, needs windshield.",field house,2010 Chevy Express 12 pass,22,92718,92718,F-10 R-New,Above Average,"$11,409.00 ",2010
+ryan rooks,NULL,1GA2GYDG5A1137501,22,84696,7/25/2023 0:00,Yes,22,chevr,expres,Y,7/25/2023,"service, replace trailer light plug, replaced wiper blades, needs windshield.",field house,2008 Chevy Express 12 pass,23,89997,89997,F-14 R-14,Above Average,"$9,028.00 ",2010
+ryan rooks,NULL,1GA2GYDG5A1137501,22,84696,7/25/2023 0:00,Yes,22,chevr,expres,Y,7/1/2023,"check sluggish brakes. pulled apart and all looked good, 1/2 life left on pads. poss. due to bad brakes on trailer that was being pulled. ",field house,2010 Chevy Express 12 pass,22,92718,92718,F-10 R-New,Above Average,"$11,409.00 ",2010
+ryan rooks,NULL,1GA2GYDG5A1137501,22,84696,7/25/2023 0:00,Yes,22,chevr,expres,Y,7/1/2023,"check sluggish brakes. pulled apart and all looked good, 1/2 life left on pads. poss. due to bad brakes on trailer that was being pulled. ",field house,2008 Chevy Express 12 pass,23,89997,89997,F-14 R-14,Above Average,"$9,028.00 ",2010
+ryan rooks,NULL,1GAGG25K981114271,23,81911,7/26/2023 0:00,Yes,23,chevr,expres,Y,7/26/2023,"service, replace wiper blades, fix ac that wasnt blowing through vents, replace all brake calipers rotors and pads.",field house,2010 Chevy Express 12 pass,22,92718,92718,F-10 R-New,Above Average,"$11,409.00 ",2008
+ryan rooks,NULL,1GAGG25K981114271,23,81911,7/26/2023 0:00,Yes,23,chevr,expres,Y,7/26/2023,"service, replace wiper blades, fix ac that wasnt blowing through vents, replace all brake calipers rotors and pads.",field house,2008 Chevy Express 12 pass,23,89997,89997,F-14 R-14,Above Average,"$9,028.00 ",2008
+ryan rooks,NULL,1GAGG25K981114271,23,81911,7/26/2023 0:00,Yes,23,chevr,expres,Y,7/1/2023,replaced broken door handle to inside of side door.,field house,2010 Chevy Express 12 pass,22,92718,92718,F-10 R-New,Above Average,"$11,409.00 ",2008
+ryan rooks,NULL,1GAGG25K981114271,23,81911,7/26/2023 0:00,Yes,23,chevr,expres,Y,7/1/2023,replaced broken door handle to inside of side door.,field house,2008 Chevy Express 12 pass,23,89997,89997,F-14 R-14,Above Average,"$9,028.00 ",2008
+annie mas-smith,White,1GAWGPFG6D1121076,42,57374,2/20/2024 0:00,Yes,42,chevr,expres,NULL,NULL,NULL,slc,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2013
+gerald,NULL,1GBHG31C781160041,12,86398,1/31/2023 0:00,Yes,BOX,chevr,expres,Y,NULL,NULL,building ser,2008 Chevey Express Box,12,88432,86398,F-9 R-10,Average,"$7,545.00 ",2008
+back row,White,1GBJC34U87E181831,34,29970,4/26/2023 0:00,Yes,GROUNDS,chevr,silver,Y,NULL,NULL,grounds,2007 Ford Econoline Box,17,31317,30329,F-11 R-8,Average,Not Listed,2007
+back row,White,1GBJC34U87E181831,34,29970,4/26/2023 0:00,Yes,GROUNDS,chevr,silver,Y,NULL,NULL,grounds,2002 Ford Econoline Box,19,61088,60534,F-4 R-10,Below Average,Not Listed,2007
+scott m,Grey,1GC0KUEG1GZ122766,24,26570,11/14/2023 0:00,Yes,GROUNDS,chevr,silver,Y,11/14/2023,"full service. replace both batteries, replace washer fluid pump",grounds,2020 Chevy Silverado 3500,29,12232,9194,F-16 R-16,Above Average,"$36,249.00 ",2016
+scott m,NULL,1GC0KUEG4FZ506586,28,113800,6/14/2023 0:00,Yes,GROUNDS,chevr,silver,Y,NULL,NULL,grounds,2020 Chevy Silverado 3500,29,12232,9194,F-16 R-16,Above Average,"$36,249.00 ",2015
+scott m,Silver,1GC2KUEG6FZ540666,36,58240,6/14/2023 0:00,Yes,GROUNDS,chevr,silver,Y,NULL,NULL,grounds,2020 Chevy Silverado 3500,29,12232,9194,F-16 R-16,Above Average,"$36,249.00 ",2015
+scott m,NULL,1GC3YSE72LF286037,29,9194,6/14/2023 0:00,Yes,Scott M,chevr,silver,Y,NULL,NULL,grounds,2020 Chevy Silverado 3500,29,12232,9194,F-16 R-16,Above Average,"$36,249.00 ",2020
+keith grasman,Silver,1GC4KVCGXKF146066,47,0,NULL,Yes,BIO Keith Grasman,chevr,silver,Y,NULL,NULL,biology,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2019
+alton,Red,1GCDM19X62B122770,11,149797,6/14/2023 0:00,Yes,11,chevr,astro,Y,NULL,NULL,building ser,2005 Ford E150 Econoline,32,81804,81064,F-8 R-11,Below Average,"$4,866.00 ",2002
+scott m,NULL,1GCEK14028Z183571,26,60160,1/24/2023 0:00,Yes,GROUNDS,chevr,silver,Y,NULL,NULL,grounds,2020 Chevy Silverado 3500,29,12232,9194,F-16 R-16,Above Average,"$36,249.00 ",2008
+trent,White,1GCGG25C591136690,2,178401,2/28/2024 0:00,Yes,2,chevr,expres,Y,NULL,NULL,building ser,2009 Chevy 2500 Express,2,179221,178401,F-11 R-10,Above Average,"$5,399.00 ",2009
+gerald,White,1GCGG25U861242605,1,82175,5/17/2023 0:00,yes,1,chevr,expres,Y,NULL,NULL,building ser,2008 Chevey Express Box,12,88432,86398,F-9 R-10,Average,"$7,545.00 ",2006
+back row,NULL,1GCHC24U57E102488,33,59510,6/14/2023 0:00,Yes,GROUNDS,chevr,silver,Y,NULL,NULL,grounds,2007 Ford Econoline Box,17,31317,30329,F-11 R-8,Average,Not Listed,2007
+back row,NULL,1GCHC24U57E102488,33,59510,6/14/2023 0:00,Yes,GROUNDS,chevr,silver,Y,NULL,NULL,grounds,2002 Ford Econoline Box,19,61088,60534,F-4 R-10,Below Average,Not Listed,2007
+scott m,NULL,1GCHC29U04E213020,27,125343,2/1/2023 0:00,Yes,GROUNDS,chevr,silver,Y,NULL,NULL,grounds,2020 Chevy Silverado 3500,29,12232,9194,F-16 R-16,Above Average,"$36,249.00 ",2004
+jamie skillen,Silver,1GCHK24U97E197687,48,78810,3/8/2023 0:00,Yes,BUNKER,chevr,silver,Y,NULL,NULL,bunker,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2007
+keith grasman,Red,1GCHK33J2YF457274,46,172594,2/7/2023 0:00,Yes,BIO Keith Grasman,chevr,gmt-40,Y,NULL,NULL,biology,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2000
+manuel,White,1GCNCPEH0FZ312554,6,21390,11/8/2023 0:00,Yes,6,chevr,silver,Y,11/8/2023,full service,building ser,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2016
+scott m,Black,1GCNKPE07DZ400057,37,41811,6/14/2023 0:00,Yes,GROUNDS,chevr,silver,Y,NULL,NULL,grounds,2020 Chevy Silverado 3500,29,12232,9194,F-16 R-16,Above Average,"$36,249.00 ",2013
+none,White,1GCSGAF4731111652,43,40681,1/31/2023 0:00,Yes,NULL,none,none,NULL,NULL,NULL,mail,Golf Carts,BS/Advancement,White,8323,NULL,NULL,NULL,2014
+none,White,1GCSGAF4731111652,43,40681,1/31/2023 0:00,Yes,NULL,none,none,NULL,NULL,NULL,mail,OO7,BS/Advancement,White,8323,NULL,NULL,NULL,2014
+none,White,1GCSGAF4731111652,43,40681,1/31/2023 0:00,Yes,NULL,none,none,NULL,NULL,NULL,mail,Fac #4,BS,Green EZ/Go,6377,NULL,NULL,NULL,2014
+none,White,1GCSGAF4731111652,43,40681,1/31/2023 0:00,Yes,NULL,none,none,NULL,NULL,NULL,mail,Fac #8,BS,Green EZ/Go,6377,NULL,NULL,NULL,2014
+none,White,1GCSGAF4731111652,43,40681,1/31/2023 0:00,Yes,NULL,none,none,NULL,NULL,NULL,mail,Fac #9,BS/Custodial/Emily,Burgundy,751,NULL,NULL,NULL,2014
+tyler,White,1GCWGFBAXB1150225,5,87034,4/25/2023 0:00,Yes,5,chevr,expres,Y,5/22/2025,NULL,building ser,2011 Chevy Express Cargo,5,90825,90625,F-8 R-14,Average,"$8,197.00 ",2011
+nick,White,1GCWGFCG8E1129333,9,46823,4/26/2023 0:00,Yes,9,chevr,expres,Y,NULL,NULL,building ser,2014 Chevy Express Van,9,49770,46823,F-7 R-9,Above Average,"$19,042.00 ",2014
+scott m,NULL,1GT3KZBG8AF151169,25,102911,6/14/2023 0:00,Yes,GROUNDS,gmc,sierra,Y,NULL,NULL,grounds,2020 Chevy Silverado 3500,29,12232,9194,F-16 R-16,Above Average,"$36,249.00 ",2010
+sandy,White,2C4RDGBG2ER406096,45,59527,11/7/2023 0:00,Yes,45,dodge,grand,Y,11/7/2023,full service and check brakes,building ser,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2014
+none,NULL,2FMDK3GC9EBA99738,#2,129884,4/25/2023 0:00,Yes,CS #2,ford,edge,Y,NULL,NULL,camp saf,Golf Carts,BS/Advancement,White,8323,NULL,NULL,NULL,2014
+none,NULL,2FMDK3GC9EBA99738,#2,129884,4/25/2023 0:00,Yes,CS #2,ford,edge,Y,NULL,NULL,camp saf,OO7,BS/Advancement,White,8323,NULL,NULL,NULL,2014
+none,NULL,2FMDK3GC9EBA99738,#2,129884,4/25/2023 0:00,Yes,CS #2,ford,edge,Y,NULL,NULL,camp saf,Fac #4,BS,Green EZ/Go,6377,NULL,NULL,NULL,2014
+none,NULL,2FMDK3GC9EBA99738,#2,129884,4/25/2023 0:00,Yes,CS #2,ford,edge,Y,NULL,NULL,camp saf,Fac #8,BS,Green EZ/Go,6377,NULL,NULL,NULL,2014
+none,NULL,2FMDK3GC9EBA99738,#2,129884,4/25/2023 0:00,Yes,CS #2,ford,edge,Y,NULL,NULL,camp saf,Fac #9,BS/Custodial/Emily,Burgundy,751,NULL,NULL,NULL,2014
+annie mas-smith,White,2G1WT58K681215217,41,131220,2/28/2024 0:00,Yes,41,chevr,impala,Y,NULL,NULL,slc,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2008
+nick nichols,NULL,2HGFB2F59DH574392,40,101852,11/7/2023 0:00,Yes,PRISON,honda,civic,Y,11/7/2023,"Full service, change wiper blades, replace battery",prison,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2013
+none,NULL,NM0GE9F76E1142148,38,37777,2/20/2024 0:00,Yes,MAIL,ford,transi,Y,NULL,NULL,mail,Golf Carts,BS/Advancement,White,8323,NULL,NULL,NULL,2016
+none,NULL,NM0GE9F76E1142148,38,37777,2/20/2024 0:00,Yes,MAIL,ford,transi,Y,NULL,NULL,mail,OO7,BS/Advancement,White,8323,NULL,NULL,NULL,2016
+none,NULL,NM0GE9F76E1142148,38,37777,2/20/2024 0:00,Yes,MAIL,ford,transi,Y,NULL,NULL,mail,Fac #4,BS,Green EZ/Go,6377,NULL,NULL,NULL,2016
+none,NULL,NM0GE9F76E1142148,38,37777,2/20/2024 0:00,Yes,MAIL,ford,transi,Y,NULL,NULL,mail,Fac #8,BS,Green EZ/Go,6377,NULL,NULL,NULL,2016
+none,NULL,NM0GE9F76E1142148,38,37777,2/20/2024 0:00,Yes,MAIL,ford,transi,Y,NULL,NULL,mail,Fac #9,BS/Custodial/Emily,Burgundy,751,NULL,NULL,NULL,2016
+simon,NULL,NM0KS9BN4DT126640,14,86709,4/4/2023 0:00,Yes,14,ford,transi,Y,NULL,NULL,camp saf,2013 Ford Transit Connect,14,88352,86709,F-4/6 R-7,Above Average,"$9,359.00 ",2013
+amanda harper,NULL,NM0LS6E77E1139895,39,22377,2/28/2024 0:00,Yes,CD  ,ford,transi,Y,NULL,NULL,c-dining,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2014
+larry,White,NM0LS7BNXDT157450,8,25464,10/25/2023 0:00,Yes,8,ford,transi,Y,10/25/2023,service and change oil. replace wiper blade.,building ser,2013 Ford Transit Connect,8,26972,25464,F-11 R-12,Above Average,"$10,758.00 ",2013

@@ -1,0 +1,10 @@
+1|Gerald|Building Ser|2006.0|Chevy|2500 Express|White|1GCGG25U861242605
+2|Trent|Building Ser|2009.0|Chevy |2500 Express|White|1GCGG25C591136690
+3|Joe|Building Ser|2011.0|Ford|Econoline|White|1FTNE2EW2BDB09118
+4|Daniel|Building Ser|2016.0|Ford|Transit|White|1FTYR1ZM3GKA47834
+5|Tyler|Building Ser|2011.0|Chevy|Express Cargo|White|1GCWGFBAXB1150225
+6|Manuel|Building Ser|2016.0|Chevy|1500 LS|White|1GCNCPEH0FZ312554
+7|Perry|Building Ser|2018.0|Ford |Transit 250 Cargo|White|1FTYR1ZM1JKA59312
+8|Larry|Building Ser|2013.0|Ford|Transit Connect|White|NM0LS7BNXDT157450
+9|Nick|Building Ser|2014.0|Chevy |Express Van|White|1GCWGFCG8E1129333
+10|John Z|Building Ser|2014.0|Ford|E-250|White|1FTNE2EW1EDA31614

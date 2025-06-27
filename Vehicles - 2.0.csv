@@ -1,0 +1,81 @@
+﻿Vehicle,Veh #,Driver,Current Mileage,Last LOF,Tire Condition IN 32nds,Overall condition,KBB Value
+2006 2500 Express,1,Jon,85368,82175,F-10/6 R-5/7,Below Average,"$7,991.00 "
+2009 Chevy 2500 Express,2,Trent,179221,178401,F-11 R-10,Above Average,"$5,399.00 "
+2011 Ford Econoline,3,Joe,109612,108802,F-13 R-14,Below Average,"$7,509.00 "
+2016 Ford Transit,4,Manny,29717,25619,F-9 R-9,Above Average,"$21,403.00 "
+2011 Chevy Express Cargo,5,Tyler,90825,90625,F-8 R-14,Average,"$8,197.00 "
+2015 Chevey 1500 LS,6,Dave,22105,21390,F-10 R-11,Above Average,"$14,186.00 "
+2018 Ford Transit 250 Cargo,7,Perry,24121,18863,F-9 R-9,Above Average,"$29,593.00 "
+2013 Ford Transit Connect,8,Larry,26972,25464,F-11 R-12,Above Average,"$10,758.00 "
+2014 Chevy Express Van,9,Nick,49770,46823,F-7 R-9,Above Average,"$19,042.00 "
+2015 Ford E-250,10,Andrew,21204,19019,F-11 R-9,Above Average,"$18,382.00 "
+2008 Chevey Express Box,12,Gerald,88432,86398,F-9 R-10,Average,"$7,545.00 "
+2003 Ford E250 ECONOLINE,13,Handicap,7934,7894,F-12 R-12,Average,"$7,734.00 "
+2013 Ford Transit Connect,14,Simon,88352,86709,F-4/6 R-7,Above Average,"$9,359.00 "
+2019 Ford Econoline BOX,15,Creative Din,2395,1903,F-11 R-12,Above Average,Not Listed
+2007 Ford Econoline Box,17,Back Row,31317,30329,F-11 R-8,Average,Not Listed
+2002 Ford Econoline Box,19,Back Row,61088,60534,F-4 R-10,Below Average,Not Listed
+2003 LD Truck,21,Dean/Nick,98313,97297,F-10 R-10,Above Average,"$3,026.00 "
+2010 Chevy Express 12 pass,22,Ryan Rooks,92718,92718,F-10 R-New,Above Average,"$11,409.00 "
+2008 Chevy Express 12 pass,23,Ryan Rooks,89997,89997,F-14 R-14,Above Average,"$9,028.00 "
+2016 Chevy 2500 W/T,24,Bob Grounds,28131,26570,F-13 R-13,Above Average,"$24,153.00 "
+2010 GMCSierra 2500 SLE,25,Grounds,104850,102911,F-11 R-11,Above Average,"$9,479.00 "
+2008 Chevy Silverado,26,Grounds,61304,60160,F-7 R-6,Average,"$10,563.00 "
+2004 Chevy 2500HD,27,Grounds,126501,125343,F-17 R12,Average,"$3,949.00 "
+2015 Chevy 2500,28,Grounds,114540,113800,F-8 R-8,Above Average,"$15,315.00 "
+2020 Chevy Silverado 3500,29,Scott M,12232,9194,F-16 R-16,Above Average,"$36,249.00 "
+1988 F-600 Dump,30,Grounds,44506,44484,F-4 R-17,Average,To old to list
+1988 F-800,31,Grounds,261536,261513,F-16 R-20,Average,To old to list
+2005 Ford E150 Econoline,32,Alton ,81804,81064,F-8 R-11,Below Average,"$4,866.00 "
+2007 Chevy Silverado ,33,Grounds,59584,59510,F-11 R-13,Average,"$8,787.00 "
+2007 Chevy Silverado,34,Grounds,31088,29970,F-16 R-16,Average,"$9,260.00 "
+2015 Chevy Silverado 2500 W/T,36,Grounds,60602,58240,F-13 R-9,Above Average,"$18,637.00 "
+2013 Chevy Silverado,37,Grounds,42616,41811,F-11 R-12,Average,"$14,055.00 "
+2016 Ford Transit Connect,38,Mail/Print,38779,37777,F-9 R-7,Average,"$11,853.00 "
+2014 Ford Transconnect,39,Creative Din,23164,22377,F-9 R-9,Below Average,"$12,414.00 "
+2008 Chevy Impala,41,SLC,133423,131220,F-10 R-4,Above Average,"$3,814.00 "
+2013 Chevy Express 12 pass,42,SLC,64078,57374,F-14 R-11,Above Average,"$20,536.00 "
+2014 Chevy Express Van,43,Mail/Print,42677,40681,F-7 R-9,Above Average,"$20,129.00 "
+2011 Ford Econoline,44,Creative Din,14762,14005,F-7 R-8,Above Average,"$12,547.00 "
+2014 Dodge Grand Caravan,45,Creative Din,60463,59527,F10 R-10,Above Average,"$9,320.00 "
+2000 Chevy GMT-40,46,BIO Kgrassmen,173129,172594, ,Average,"$3,947.00 "
+2019 Chevy,47,BIO Kgrassmen,67706,56785,F-13 R-9,Above Average,"$29,604.00 "
+2007 Chevy,48,Bunker ,83529,78810,F-13 R-12,Above Average,"$9,150.00 "
+Rav 4,#1,Campus Safety, , , ,new, 
+Rav 4,#2,Campus Safety, , , ,new, 
+Rav 4,#3,Campus Safety, , , ,new, 
+Rav 4,#4,Campus Safety, , , ,new, 
+2024 Ford, ,Bunker, , , ,new, 
+,,,,,,,
+Golf Carts,,,,,,,
+ #,Dept.,YR,Make,VIN-last 4,Notes,,
+31,A/V ,2003,CC-Elec-Green,,,,
+OO7,BS/Advancement,,White,8323,,,
+181,Arch,2008,CC-Gas-Beige,,,,
+162,BS,2014,EZ-Gas-Green,,,,
+Fac #4,BS,,Green EZ/Go,6377,,,
+Fac #6,BS,2000,CC-Elec-Maroon,5835,,,
+Fac #8,BS,,,,,,
+192,BS/Custodial/Emily,2019,Toro-Gas-Red,,student workers wash cart,,
+Fac #9,BS/Custodial/Emily,,Burgundy,751,,,
+,BS/Custodial/Sandy,2018,Blue-Carryall 300,MC1836-901627,,,
+183,BS/Custodial-Zack,2008,CC-Gas-Beige,4651,,,
+111,BS/Grounds,2011,Toro-Gas-Red,,,,
+Fac #1,BS/Grounds ,2008,CC-Gas-Beige,4697,Oil Leakin shop. 5-10-24,,
+Fac #7,BS/Grounds ,2008,CC-Gas-Beige,4638,,,
+Fac #5,BS/MEP- Gary,2008,CC-Gas-Beige,4691,,,
+Fac #2,BS/MEP Joe,2008,CC-Gas-Beige,4703,,,
+184,BS/MEP-Alton,2008,CC-Gas-Beige,4674,,,
+Fac #3,BS/Nick T,2014,EZ-Gas-Green,6351,"In shop, hesitates, does not move",,
+163,Campus Safety,2016,Toro-Gas-White,,,,
+91,CIT,2009,CC-Elec-Gray,,,,
+171,CIT,2004,CC-Elect-White,,,,
+991,CIT,1999,CC-Elec-Green,,,,
+182,Creative Dining,2008,CC-Gas-Beige,4636,,,
+32,Dev,2003,CC-Gas-Maroon,,,,
+121,PE,2012,Toro-Gas-Black,,,,
+151,PE,2015,Toro-Elec-Black,,,,
+188,PE,2008,CC-Gas-Black,,,,
+189,PE,2008,CC-Gas-Black,,,,
+941,PE,1994,JA-Gas Orange,,,,
+21,Student life,2002,CC-Gas-Black,,,,
