@@ -3,13 +3,52 @@ import sqlite3
 import pandas as pd
 from datetime import datetime
 
-# Connect to SQLite database
-conn = sqlite3.connect("mydata.db", check_same_thread=False)
+# Toggle test mode
+TEST_MODE = False
+
+# Use in-memory database if in test mode
+if TEST_MODE:
+    conn = sqlite3.connect(":memory:", check_same_thread=False)
+else:
+    conn = sqlite3.connect("../mydata.db", check_same_thread=False)
+
 c = conn.cursor()
 
-# Load existing data from final_merged to enable auto-fill
-@st.cache_data
+# Load actual data into in-memory DB for test mode
+if TEST_MODE:
+    real_conn = sqlite3.connect("../mydata.db")
+    real_df = pd.read_sql_query("SELECT * FROM final_cleaned", real_conn)
+    real_conn.close()
+    real_df.to_sql("final_cleaned", conn, index=False, if_exists="replace")
 
+# Create necessary tables (safe even if they exist)
+c.execute('''
+    CREATE TABLE IF NOT EXISTS survey_log (
+        VIN TEXT,
+        Driver TEXT,
+        Mileage REAL,
+        Last_Service TEXT,
+        Color TEXT,
+        Service TEXT,
+        Notes TEXT,
+        Timestamp TEXT
+    )
+''')
+
+c.execute('''
+    CREATE TABLE IF NOT EXISTS vin_service_log (
+        VIN TEXT,
+        Driver TEXT,
+        Mileage REAL,
+        Last_Service TEXT,
+        Color TEXT,
+        Notes TEXT,
+        Timestamp TEXT
+    )
+''')
+
+# Load data from final_cleaned
+@st.cache_data
 def load_data():
     return pd.read_sql_query("SELECT * FROM final_cleaned", conn)
 
@@ -17,7 +56,7 @@ final_df = load_data()
 
 st.title("Vehicle Update Form")
 
-# --- Input VIN and auto-fill fields if found ---
+# --- VIN input & prefill ---
 vin = st.text_input("VIN (required)").strip().upper()
 existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
 
@@ -28,15 +67,12 @@ if not existing_record.empty:
     model = existing_record['Model'].values[0]
     depts = existing_record['Depts'].values[0]
     calvin_num = existing_record['Calvin #'].values[0]
+    driver_prefill = existing_record['Driver'].values[0]
+    color_prefill = existing_record['Color'].values[0]
 else:
-    vehicle_num = ""
-    year = ""
-    make = ""
-    model = ""
-    depts = ""
-    calvin_num = ""
+    vehicle_num = year = make = model = depts = calvin_num = driver_prefill = color_prefill = ""
 
-# --- Input fields ---
+# --- Display readonly autofilled fields ---
 st.text_input("Vehicle #", value=vehicle_num, disabled=True)
 st.text_input("Year", value=year, disabled=True)
 st.text_input("Make", value=make, disabled=True)
@@ -44,74 +80,101 @@ st.text_input("Model", value=model, disabled=True)
 st.text_input("Depts", value=depts, disabled=True)
 st.text_input("Calvin #", value=calvin_num, disabled=True)
 
-driver = st.text_input("Driver")
+# --- Editable input fields ---
+driver = st.text_input("Driver", value=driver_prefill)
 mileage = st.number_input("Current Mileage", min_value=0.0)
 last_service = st.date_input("Last Service Date")
-color = st.text_input("Color")
+color = st.text_input("Color", value=color_prefill)
 service_status = st.selectbox("Service?", options=["Yes", "No"])
 Notes = st.text_input("Notes")
 
-# --- Submit section ---
+# --- Submit Section ---
 if st.button("Submit Update"):
     if vin == "":
         st.warning("VIN is required to submit the update.")
     else:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        # Fetch current values to shift down
         prev = final_df[final_df['VIN'] == vin]
-        if not prev.empty:
-            prev_current_mileage = prev['Current Mileage'].values[0]
-            prev_service_date = prev['Date_of_Service'].values[0]
+        prev_current_mileage = prev['Current Mileage'].values[0] if not prev.empty else None
+        prev_service_date = prev['Date_of_Service'].values[0] if not prev.empty else None
+
+        if TEST_MODE:
+            st.info("Test Mode Active — No changes will be saved.")
+            st.write({
+                "VIN": vin,
+                "Driver": driver,
+                "Mileage (old)": prev_current_mileage,
+                "Current Mileage (new)": mileage,
+                "Last Service (old)": prev_service_date,
+                "Service Date (new)": str(last_service),
+                "Color": color,
+                "Service?": service_status,
+                "Notes": Notes
+            })
         else:
-            prev_current_mileage = None
-            prev_service_date = None
+            # Update final_cleaned
+            c.execute('''
+                UPDATE final_cleaned SET
+                    Driver = ?,
+                    Mileage = ?,
+                    [Current Mileage] = ?,
+                    [Last Service] = ?,
+                    [Date_of_Service] = ?,
+                    [Service?] = ?,
+                    Color = ?,
+                    Notes = ?
+                WHERE VIN = ?
+            ''', (
+                driver.strip(),
+                prev_current_mileage,
+                mileage,
+                prev_service_date,
+                str(last_service),
+                service_status,
+                color.strip(),
+                Notes.strip(),
+                vin
+            ))
 
-        # Update final_merged: shift old current values to base fields
-        c.execute('''
-            UPDATE final_merged SET
-                Driver = ?,
-                Mileage = ?,
-                [Current Mileage] = ?,
-                [Last Service] = ?,
-                [Date_of_Service] = ?,
-                [Service?] = ?,
-                Color = ?
-            WHERE VIN = ?
-        ''', (
-            driver.strip(),
-            prev_current_mileage,
-            mileage,
-            prev_service_date,
-            str(last_service),
-            service_status,
-            color.strip(),
-            vin
-        ))
+            # Log to survey_log
+            c.execute('''
+                INSERT INTO survey_log (VIN, Driver, Mileage, Last_Service, Color, Service, Notes, Timestamp)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (vin, driver.strip(), mileage, str(last_service), color.strip(), service_status, Notes.strip(), timestamp))
 
-        # Log to survey_log
-        c.execute('''
-            CREATE TABLE IF NOT EXISTS survey_log (
-                VIN TEXT,
-                Driver TEXT,
-                Mileage REAL,
-                Last_Service TEXT,
-                Color TEXT,
-                Service TEXT,
-                Timestamp TEXT
-            )
-        ''')
-        c.execute('''
-            INSERT INTO survey_log (VIN, Driver, Mileage, Last_Service, Color, Service, Timestamp)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        ''', (vin, driver.strip(), mileage, str(last_service), color.strip(), service_status, timestamp))
+            # Log to vin_service_log
+            c.execute('''
+                INSERT INTO vin_service_log (VIN, Driver, Mileage, Last_Service, Color, Notes, Timestamp)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', (vin, driver.strip(), mileage, str(last_service), color.strip(), Notes.strip(), timestamp))
 
-        conn.commit()
-        st.success(f"✅ Update submitted for VIN: {vin}")
+            conn.commit()
+            st.success(f"✅ Update submitted for VIN: {vin}")
 
-# --- Optional: View latest survey log ---
+# --- VIN History Dropdown ---
+st.markdown("### VIN Service History")
+
+# --- View Survey Log ---
 if st.checkbox("Show Survey Log"):
     log_df = pd.read_sql_query("SELECT * FROM survey_log ORDER BY Timestamp DESC", conn)
     st.dataframe(log_df)
+
+
+
+vin_list = pd.read_sql_query("SELECT DISTINCT VIN FROM vin_service_log", conn)['VIN'].tolist()
+
+for vin_item in sorted(vin_list):
+    with st.expander(f"▶ VIN: {vin_item}"):
+        history = pd.read_sql_query(f"""
+            SELECT * FROM vin_service_log
+            WHERE VIN = ?
+            ORDER BY Timestamp DESC
+            LIMIT 2
+        """, conn, params=(vin_item,))
+        
+        if not history.empty:
+            st.dataframe(history)
+        else:
+            st.info("No service records found for this VIN.")
 
 conn.close()
