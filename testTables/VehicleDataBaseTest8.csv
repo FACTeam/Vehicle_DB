@@ -1,0 +1,46 @@
+VIN,Vehicle  #,Year,Make,Model,Color,Driver,Depts,Mileage,Current Mileage,Last Service,Service?,Date_of_Service,Title,Notes,Vehicle,Veh #,Last LOF,Tire Condition IN 32nds,Overall condition,KBB Value
+1FDWE35L52HB44451,19,2002,Ford,Econoline Box,NULL,Back Row,Facilities,60534,31317,6/13/2023,Yes,NULL,Y,NULL,2007 Ford Econoline Box,17,30329,F-11 R-8,Average,Not Listed
+1FDWE35L47DA26972,None,2007,Ford,Econol,NULL,Back Row,Facilities,NULL,31317,NULL,NULL,NULL,Y,NULL,2007 Ford Econoline Box,17,30329,F-11 R-8,Average,Not Listed
+1GC0KUEG1GZ122766,24,2016,Chevr,Silverado,Grey,Bob,Grounds,26570,12232,11/14/2023,Yes,11/14/2023,Y,"full service. replace both batteries, replace washer fluid pump",2020 Chevy Silverado 3500,29,9194,F-16 R-16,Above Average,"$36,249.00 "
+1GT3KZBG8AF151169,25,2010,Gmc,Sierra 2500 SLE,Gray,Nick,Grounds,102911,12232,6/14/2023,Yes,NULL,Y,NULL,2020 Chevy Silverado 3500,29,9194,F-16 R-16,Above Average,"$36,249.00 "
+1GCEK14028Z183571,26,2008,Chevr,Silverado,Plum,Scott M,Grounds,60160,12232,1/24/2023,Yes,NULL,Y,NULL,2020 Chevy Silverado 3500,29,9194,F-16 R-16,Above Average,"$36,249.00 "
+1GCHC29U04E213020,27,2004,Chevr,2500HD,Gold,Scott M,Grounds,125343,12232,2/1/2023,Yes,NULL,Y,NULL,2020 Chevy Silverado 3500,29,9194,F-16 R-16,Above Average,"$36,249.00 "
+1GC0KUEG4FZ506586,28,2015,Chevr,Silverado,NULL,Scott M,Grounds,113800,12232,6/14/2023,Yes,NULL,Y,NULL,2020 Chevy Silverado 3500,29,9194,F-16 R-16,Above Average,"$36,249.00 "
+1GC3YSE72LF286037,29,2020,Chevr,Silverado 3500,Blue,Scott M,Grounds,9194,12232,6/14/2023,Yes,NULL,Y,NULL,2020 Chevy Silverado 3500,29,9194,F-16 R-16,Above Average,"$36,249.00 "
+1FDNF60H6JVA30777,30,1988,Ford,F-600 Dump,Red,Back Row,Grounds,44484,31317,6/14/2023,Yes,NULL,Y,NULL,2007 Ford Econoline Box,17,30329,F-11 R-8,Average,Not Listed
+1GCHC24U57E102488,33,2007,Chevr,Silverado,White,Back Row,Grounds,59510,31317,6/14/2023,Yes,NULL,Y,NULL,2007 Ford Econoline Box,17,30329,F-11 R-8,Average,Not Listed
+1GBJC34U87E181831,34,2007,Chevr,Silverado,White,Back Row,Grounds,29970,31317,4/26/2023,Yes,NULL,Y,NULL,2007 Ford Econoline Box,17,30329,F-11 R-8,Average,Not Listed
+1GC2KUEG6FZ540666,36,2015,Chevr,Silverado 2500 W/T,Silver,Mike,Grounds,58240,12232,6/14/2023,Yes,NULL,Y,NULL,2020 Chevy Silverado 3500,29,9194,F-16 R-16,Above Average,"$36,249.00 "
+1GCNKPE07DZ400057,37,2013,Chevr,Silverado,Black,Scott M,Grounds,41811,12232,6/14/2023,Yes,NULL,Y,NULL,2020 Chevy Silverado 3500,29,9194,F-16 R-16,Above Average,"$36,249.00 "
+1GCGG25U861242605,1,2006,Chevr,Expres,White,Gerald,Building Ser,82175,88432,5/17/2023,yes,NULL,Y,NULL,2008 Chevey Express Box,12,86398,F-9 R-10,Average,"$7,545.00 "
+1FTNE2EW1EDA31614,10,2014,Ford,Econol,White,John Z,Building Ser,19019,None,11/7/2023,Yes,10/25/2023,Y,r and r tail light bulbs,NULL,NULL,NULL,NULL,NULL,NULL
+1GCDM19X62B122770,11,2002,Chevr,Astro,Red,Alton,Building Ser,149797,81804,6/14/2023,Yes,NULL,Y,NULL,2005 Ford E150 Econoline,32,81064,F-8 R-11,Below Average,"$4,866.00 "
+1GBHG31C781160041,12,2008,Chevr,Expres,NULL,Gerald,Building Ser,86398,88432,1/31/2023,Yes,NULL,Y,NULL,2008 Chevey Express Box,12,86398,F-9 R-10,Average,"$7,545.00 "
+1FTNE24L03HB89987,13,2003,Ford,Econol,NULL,Handicap,Building Ser,7894,7934,11/8/2023,Yes,11/8/2023,Y,full service and replaced blown left head light bulb.,2003 Ford E250 ECONOLINE,13,7894,F-12 R-12,Average,"$7,734.00 "
+1GCGG25C591136690,2,2009,Chevr,Expres,White,Trent,Building Ser,178401,179221,2/28/2024,Yes,NULL,Y,NULL,2009 Chevy 2500 Express,2,178401,F-11 R-10,Above Average,"$5,399.00 "
+1FTNE2EW2BDB09118,3,2011,Ford,Econol,White,Joe,Building Ser,108802,109612,10/25/2023,Yes,10/25/2023,Y,service and oil change,2011 Ford Econoline,3,108802,F-13 R-14,Below Average,"$7,509.00 "
+1FTYR1ZM3GKA47834,4,2016,Ford,Transi,White,Daniel,Building Ser,25619,None,4/25/2023,Yes,11/13/2023,Y,replace battery and figure out electric draw,NULL,NULL,NULL,NULL,NULL,NULL
+2C4RDGBG2ER406096,45,2014,Dodge,Grand,White,Sandy,Building Ser,59527,None,11/7/2023,Yes,11/7/2023,Y,full service and check brakes,NULL,NULL,NULL,NULL,NULL,NULL
+1GCWGFBAXB1150225,5,2011,Chevr,Expres,White,Tyler,Building Ser,87034,90825,4/25/2023,Yes,5/22/2025,Y,NULL,2011 Chevy Express Cargo,5,90625,F-8 R-14,Average,"$8,197.00 "
+1GCNCPEH0FZ312554,6,2016,Chevr,Silverado,White,Manuel,Building Ser,21390,None,11/8/2023,Yes,11/8/2023,Y,full service,NULL,NULL,NULL,NULL,NULL,NULL
+1FTYR1ZM1JKA59312,7,2018,Ford,Transi,White,Perry,Building Ser,18863,24121,4/4/2023,Yes,NULL,Y,NULL,2018 Ford Transit 250 Cargo,7,18863,F-9 R-9,Above Average,"$29,593.00 "
+NM0LS7BNXDT157450,8,2013,Ford,Transi,White,Larry,Building Ser,25464,26972,10/25/2023,Yes,10/25/2023,Y,service and change oil. replace wiper blade.,2013 Ford Transit Connect,8,25464,F-11 R-12,Above Average,"$10,758.00 "
+1GCWGFCG8E1129333,9,2014,Chevr,Expres,White,Nick,Building Ser,46823,49770,4/26/2023,Yes,NULL,Y,NULL,2014 Chevy Express Van,9,46823,F-7 R-9,Above Average,"$19,042.00 "
+1FMCU0F73EUD08328,#1,2014,Ford,Escape,NULL,None,Camp Saf,131897,,5/17/2023,Yes,NULL,Y,NULL,Golf Carts,BS/Advancement,8323,NULL,NULL,NULL
+2FMDK3GC9EBA99738,#2,2014,Ford,Edge,NULL,None,Camp Saf,129884,,4/25/2023,Yes,NULL,Y,NULL,Golf Carts,BS/Advancement,8323,NULL,NULL,NULL
+1FMCU0F77FUC24224,#3,2015,Ford,Escape,NULL,None,Camp Saf,84773,,5/17/2023,Yes,NULL,Y,NULL,Golf Carts,BS/Advancement,8323,NULL,NULL,NULL
+1FMCU0F71FUA60257,#4,2015,Ford,Escape,NULL,None,Camp Saf,100819,,5/17/2023,Yes,NULL,Y,NULL,Golf Carts,BS/Advancement,8323,NULL,NULL,NULL
+NM0KS9BN4DT126640,14,2013,Ford,Transi,NULL,Simon,Camp Saf,86709,88352,4/4/2023,Yes,NULL,Y,NULL,2013 Ford Transit Connect,14,86709,F-4/6 R-7,Above Average,"$9,359.00 "
+NM0GE9F76E1142148,38,2016,Ford,Transit Connect,NULL,None,Mail,37777,,2/20/2024,Yes,NULL,Y,NULL,Golf Carts,BS/Advancement,8323,NULL,NULL,NULL
+1GCSGAF4731111652,43,2014,None,None,White,None,Mail,40681,,1/31/2023,Yes,NULL,NULL,NULL,Golf Carts,BS/Advancement,8323,NULL,NULL,NULL
+1GA2GYDG5A1137501,22,2010,Chevr,Express 12 pass,NULL,Ryan Rooks,Field House,84696,92718,7/25/2023,Yes,7/25/2023,Y,"service, replace trailer light plug, replaced wiper blades, needs windshield.",2010 Chevy Express 12 pass,22,92718,F-10 R-New,Above Average,"$11,409.00 "
+1GAGG25K981114271,23,2008,Chevr,Express 12 pass,NULL,Ryan Rooks,Field House,81911,92718,7/26/2023,Yes,7/26/2023,Y,"service, replace wiper blades, fix ac that wasnt blowing through vents, replace all brake calipers rotors and pads.",2010 Chevy Express 12 pass,22,92718,F-10 R-New,Above Average,"$11,409.00 "
+1FDWE4F68KDC06513,15,2019,Ford,Econol,NULL,Amanda Harper,C-Dining,1903,None,2/1/2023,Yes,NULL,Y,NULL,NULL,NULL,NULL,NULL,NULL,NULL
+NM0LS6E77E1139895,39,2014,Ford,Transi,NULL,Amanda Harper,C-Dining,22377,None,2/28/2024,Yes,NULL,Y,NULL,NULL,NULL,NULL,NULL,NULL,NULL
+1FTNE1EW8BDA20664,44,2011,Ford,Econol,White,Amanda Harper,C-Dining,14005,None,2/1/2023,Yes,NULL,Y,NULL,NULL,NULL,NULL,NULL,NULL,NULL
+1GCHK33J2YF457274,46,NULL,Chevr,Gmt-40,Red,Keith Grasman,Biology,172594,None,2/7/2023,Yes,NULL,Y,NULL,NULL,NULL,NULL,NULL,NULL,NULL
+1GC4KVCGXKF146066,47,2019,Chevr,Silverado,Silver,Keith Grasman,Biology,0,None,NULL,Yes,NULL,Y,NULL,NULL,NULL,NULL,NULL,NULL,NULL
+1GCHK24U97E197687,48,2007,Chevr,Silverado,Silver,Jamie Skillen,Bunker,78810,None,3/8/2023,Yes,NULL,Y,NULL,NULL,NULL,NULL,NULL,NULL,NULL
+2G1WT58K681215217,41,2008,Chevr,Impala,White,Annie Mas-Smith,Slc,131220,None,2/28/2024,Yes,NULL,Y,NULL,NULL,NULL,NULL,NULL,NULL,NULL
+1GAWGPFG6D1121076,42,2013,Chevr,Expres,White,Annie Mas-Smith,Slc,57374,None,2/20/2024,Yes,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL
+2HGFB2F59DH574392,40,2013,Honda,Civic,NULL,Nick Nichols,Prison,101852,None,11/7/2023,Yes,11/7/2023,Y,"Full service, change wiper blades, replace battery",NULL,NULL,NULL,NULL,NULL,NULL
