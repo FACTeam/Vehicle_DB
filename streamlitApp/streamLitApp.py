@@ -83,8 +83,10 @@ if st.session_state.action == "update":
         calvin_num = existing_record['Calvin #'].values[0]
         driver_prefill = existing_record['Driver'].values[0]
         color_prefill = existing_record['Color'].values[0]
+        notes_prefill = existing_record['Notes'].values[0]
+        service_prefill = existing_record['Service?'].values[0]
     else:
-        vehicle_num = year = make = model = depts = calvin_num = driver_prefill = color_prefill = ""
+        vehicle_num = year = make = model = depts = calvin_num = driver_prefill = color_prefill = notes_prefill = service_prefill = ""
 
     st.text_input("Vehicle #", value=vehicle_num, disabled=True)
     st.text_input("Year", value=year, disabled=True)
@@ -97,8 +99,8 @@ if st.session_state.action == "update":
     mileage = st.number_input("Current Mileage", min_value=0.0)
     last_service = st.date_input("Last Service Date")
     color = st.text_input("Color", value=color_prefill)
-    service_status = st.selectbox("Service?", options=["Yes", "No"])
-    Notes = st.text_input("Notes")
+    service_status = st.selectbox("Service?", options=["Yes", "No"], index=0 if service_prefill == "Yes" else 1)
+    Notes = st.text_input("Notes", value=notes_prefill)
 
     if st.button("Submit Update"):
         if vin == "":
@@ -136,17 +138,37 @@ if st.session_state.action == "update":
 
 # ========== Add New Vehicle Logic ==========
 elif st.session_state.action == "add":
-    st.subheader("➕ Add New Vehicle")
-    new_vin = st.text_input("New VIN")
-    new_driver = st.text_input("New Driver")
+    st.subheader("🚗 Add New Vehicle")
+    new_vin = st.text_input("VIN")
+    new_vehicle_num = st.text_input("Vehicle #")
+    new_year = st.text_input("Year")
+    new_make = st.text_input("Make")
+    new_model = st.text_input("Model")
+    new_depts = st.text_input("Depts")
+    new_calvin = st.text_input("Calvin #")
+    new_driver = st.text_input("Driver")
     new_mileage = st.number_input("Initial Mileage", min_value=0.0, key="new_mileage")
     new_last_service = st.date_input("Initial Service Date", key="new_service")
     new_color = st.text_input("Color")
+    new_service = st.selectbox("Service?", options=["Yes", "No"], key="new_service_status")
     new_notes = st.text_area("Notes")
 
-    st.info("🚧 Submit logic for adding a new vehicle is not implemented yet.")
     if st.button("Save New Vehicle"):
-        st.warning("This would save the new vehicle if logic is added.")
+        try:
+            c.execute("""
+                INSERT INTO final_cleaned (
+                    VIN, [Vehicle  #], Year, Make, Model, Depts, [Calvin #], Driver,
+                    [Current Mileage], [Date_of_Service], [Service?], Color, Notes
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                new_vin, new_vehicle_num, new_year, new_make, new_model, new_depts,
+                new_calvin, new_driver, new_mileage, str(new_last_service), new_service,
+                new_color, new_notes
+            ))
+            conn.commit()
+            st.success(f"✅ New vehicle with VIN {new_vin} added.")
+        except Exception as e:
+            st.error(f"Error adding vehicle: {e}")
 
 # --- VIN Service History ---
 st.markdown("### VIN Service History")
