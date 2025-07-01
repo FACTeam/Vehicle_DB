@@ -152,18 +152,23 @@ elif st.session_state.action == "add":
     new_color = st.text_input("Color")
     new_service = st.selectbox("Service?", options=["Yes", "No"], key="new_service_status")
     new_notes = st.text_area("Notes")
+    new_last_lof = st.text_input("Last LOF")
+    new_tire_condition = st.text_input("Tire Condition IN 32nds")
+    new_condition = st.text_input("Overall condition")
+    new_kbb = st.text_input("KBB Value")
 
     if st.button("Save New Vehicle"):
         try:
             c.execute("""
                 INSERT INTO final_cleaned (
                     VIN, [Vehicle  #], Year, Make, Model, Depts, [Calvin #], Driver,
-                    [Current Mileage], [Date_of_Service], [Service?], Color, Notes
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    [Current Mileage], [Date_of_Service], [Service?], Color, Notes,
+                    [Last LOF], [Tire Condition IN 32nds], [Overall condition], [KBB Value]
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 new_vin, new_vehicle_num, new_year, new_make, new_model, new_depts,
                 new_calvin, new_driver, new_mileage, str(new_last_service), new_service,
-                new_color, new_notes
+                new_color, new_notes, new_last_lof, new_tire_condition, new_condition, new_kbb
             ))
             conn.commit()
             st.success(f"✅ New vehicle with VIN {new_vin} added.")
