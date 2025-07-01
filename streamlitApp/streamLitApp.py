@@ -2,26 +2,20 @@ import streamlit as st
 import sqlite3
 import pandas as pd
 from datetime import datetime
+import os
 
-# Toggle test mode
-TEST_MODE = False
+# Set path to database (now inside the same folder as the app)
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "mydata.db")
 
-# Use in-memory database if in test mode
-if TEST_MODE:
-    conn = sqlite3.connect(":memory:", check_same_thread=False)
-else:
-    conn = sqlite3.connect("../mydata.db", check_same_thread=False)
+if not os.path.exists(DB_PATH):
+    raise FileNotFoundError(f"❌ Database not found at: {DB_PATH}")
 
+print("✅ Connecting to:", DB_PATH)
+
+# Connect to SQLite DB
+conn = sqlite3.connect(DB_PATH, check_same_thread=False)
 c = conn.cursor()
-
-# Load actual data into in-memory DB for test mode
-if TEST_MODE:
-    real_conn = sqlite3.connect("../mydata.db")
-    real_df = pd.read_sql_query("SELECT * FROM final_cleaned", real_conn)
-    real_conn.close()
-    real_df.to_sql("final_cleaned", conn, index=False, if_exists="replace")
-
-# Create necessary tables (safe even if they exist)
+# --- Create necessary tables ---
 c.execute('''
     CREATE TABLE IF NOT EXISTS survey_log (
         VIN TEXT,
@@ -47,7 +41,7 @@ c.execute('''
     )
 ''')
 
-# Load data from final_cleaned
+# --- Load data from final_cleaned ---
 @st.cache_data
 def load_data():
     return pd.read_sql_query("SELECT * FROM final_cleaned", conn)
@@ -98,74 +92,57 @@ if st.button("Submit Update"):
         prev_current_mileage = prev['Current Mileage'].values[0] if not prev.empty else None
         prev_service_date = prev['Date_of_Service'].values[0] if not prev.empty else None
 
-        if TEST_MODE:
-            st.info("Test Mode Active — No changes will be saved.")
-            st.write({
-                "VIN": vin,
-                "Driver": driver,
-                "Mileage (old)": prev_current_mileage,
-                "Current Mileage (new)": mileage,
-                "Last Service (old)": prev_service_date,
-                "Service Date (new)": str(last_service),
-                "Color": color,
-                "Service?": service_status,
-                "Notes": Notes
-            })
-        else:
-            # Update final_cleaned
-            c.execute('''
-                UPDATE final_cleaned SET
-                    Driver = ?,
-                    Mileage = ?,
-                    [Current Mileage] = ?,
-                    [Last Service] = ?,
-                    [Date_of_Service] = ?,
-                    [Service?] = ?,
-                    Color = ?,
-                    Notes = ?
-                WHERE VIN = ?
-            ''', (
-                driver.strip(),
-                prev_current_mileage,
-                mileage,
-                prev_service_date,
-                str(last_service),
-                service_status,
-                color.strip(),
-                Notes.strip(),
-                vin
-            ))
+        # --- Update final_cleaned ---
+        c.execute('''
+            UPDATE final_cleaned SET
+                Driver = ?,
+                Mileage = ?,
+                [Current Mileage] = ?,
+                [Last Service] = ?,
+                [Date_of_Service] = ?,
+                [Service?] = ?,
+                Color = ?,
+                Notes = ?
+            WHERE VIN = ?
+        ''', (
+            driver.strip(),
+            prev_current_mileage,
+            mileage,
+            prev_service_date,
+            str(last_service),
+            service_status,
+            color.strip(),
+            Notes.strip(),
+            vin
+        ))
 
-            # Log to survey_log
-            c.execute('''
-                INSERT INTO survey_log (VIN, Driver, Mileage, Last_Service, Color, Service, Notes, Timestamp)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (vin, driver.strip(), mileage, str(last_service), color.strip(), service_status, Notes.strip(), timestamp))
+        # --- Log to survey_log ---
+        c.execute('''
+            INSERT INTO survey_log (VIN, Driver, Mileage, Last_Service, Color, Service, Notes, Timestamp)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (vin, driver.strip(), mileage, str(last_service), color.strip(), service_status, Notes.strip(), timestamp))
 
-            # Log to vin_service_log
-            c.execute('''
-                INSERT INTO vin_service_log (VIN, Driver, Mileage, Last_Service, Color, Notes, Timestamp)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            ''', (vin, driver.strip(), mileage, str(last_service), color.strip(), Notes.strip(), timestamp))
+        # --- Log to vin_service_log ---
+        c.execute('''
+            INSERT INTO vin_service_log (VIN, Driver, Mileage, Last_Service, Color, Notes, Timestamp)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (vin, driver.strip(), mileage, str(last_service), color.strip(), Notes.strip(), timestamp))
 
-            conn.commit()
-            st.success(f"✅ Update submitted for VIN: {vin}")
+        conn.commit()
+        st.success(f"✅ Update submitted for VIN: {vin}")
 
-# --- VIN History Dropdown ---
+# --- VIN Service History ---
 st.markdown("### VIN Service History")
 
-# --- View Survey Log ---
 if st.checkbox("Show Survey Log"):
     log_df = pd.read_sql_query("SELECT * FROM survey_log ORDER BY Timestamp DESC", conn)
     st.dataframe(log_df)
-
-
 
 vin_list = pd.read_sql_query("SELECT DISTINCT VIN FROM vin_service_log", conn)['VIN'].tolist()
 
 for vin_item in sorted(vin_list):
     with st.expander(f"▶ VIN: {vin_item}"):
-        history = pd.read_sql_query(f"""
+        history = pd.read_sql_query("""
             SELECT * FROM vin_service_log
             WHERE VIN = ?
             ORDER BY Timestamp DESC
