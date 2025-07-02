@@ -58,7 +58,7 @@ st.markdown(
     """
     <style>
     body {
-        background-image: url('https://github.com/FACTeam/Vehicle_DB/blob/main/calvinLogo.png');  
+        background-image: url('https://github.com/FACTeam/Vehicle_DB/blob/main/logo.png');  
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -66,13 +66,13 @@ st.markdown(
     }
 
     .stApp {
-        background-color: rgba(255, 255, 255, 0.85);  /* Slight white background for content */
+        background-color: rgba(255, 255, 255, 0.5);  /* Slight white background for content */
         padding: 2rem;
         border-radius: 10px;
     }
 
     .stButton>button {
-        background-color: #A2D683;
+        background-color: #C2002F;
         color: white;
         border: none;
         padding: 0.5rem 1rem;
