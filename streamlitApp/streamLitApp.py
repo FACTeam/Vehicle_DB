@@ -123,7 +123,7 @@ st.divider()
 
 # ========== Update Existing Vehicle Logic ==========
 if st.session_state.action == "update":
-    st.subheader("🔧 Update Existing Vehicle")
+    st.subheader(" Update Existing Vehicle")
 
     vin = st.text_input("VIN (required)").strip().upper()
     existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
@@ -192,7 +192,7 @@ if st.session_state.action == "update":
 
 # ========== Add New Vehicle Logic ==========
 elif st.session_state.action == "add":
-    st.subheader("🚗 Add New Vehicle")
+    st.subheader("Add New Vehicle")
     new_vin = st.text_input("VIN")
     new_vehicle_num = st.text_input("Vehicle #")
     new_year = st.text_input("Year")
