@@ -152,7 +152,7 @@ if st.session_state.action == "update":
 
     driver = st.text_input("Driver", value=driver_prefill)
     mileage = st.number_input("Current Mileage", min_value=0.0)
-    last_service = st.date_input("Last Service Date")
+    last_service = st.date_input(" Service Date")
     color = st.text_input("Color", value=color_prefill)
     service_status = st.selectbox("Service?", options=["Yes", "No"], index=0 if service_prefill == "Yes" else 1)
     Notes = st.text_input("Notes", value=notes_prefill)
@@ -231,3 +231,6 @@ elif st.session_state.action == "add":
             st.error(f"Error adding vehicle: {e}")
 # close the connection
 conn.close()
+
+
+# add all the fields for the updating existing vehcile 
