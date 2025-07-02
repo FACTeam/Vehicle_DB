@@ -57,25 +57,18 @@ st.title("Vehicle Update Form")
 st.markdown(
     """
     <style>
-    /* Background color or image */
     body {
+        background-image: url('https://your-image-url-here.com/logo.png');  
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
     }
 
-    /* Optional: Semi-transparent background for widgets */
     .stApp {
-        background-color: rgba(243, 205, 0, 0.85);  /* Light background with opacity */
+        background-color: rgba(255, 255, 255, 0.85);  /* Slight white background for content */
         padding: 2rem;
         border-radius: 10px;
-    }
-
-    /* Style inputs and buttons */
-    input, textarea, select {
-        border-radius: 5px;
-        padding: 5px;
     }
 
     .stButton>button {
@@ -88,7 +81,7 @@ st.markdown(
     }
 
     .stButton>button:hover {
-        background-color: #A2D683;
+        background-color: #228B22;
     }
     </style>
     """,
