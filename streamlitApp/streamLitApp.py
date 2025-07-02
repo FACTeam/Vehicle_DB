@@ -53,6 +53,48 @@ final_df = load_data()
 
 st.title("Vehicle Update Form")
 
+# --- Background image and color ---
+st.markdown(
+    """
+    <style>
+    /* Background color or image */
+    body {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    /* Optional: Semi-transparent background for widgets */
+    .stApp {
+        background-color: rgba(255, 255, 255, 0.85);  /* Light background with opacity */
+        padding: 2rem;
+        border-radius: 10px;
+    }
+
+    /* Style inputs and buttons */
+    input, textarea, select {
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .stButton>button {
+        background-color: #2C6E49;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    .stButton>button:hover {
+        background-color: #228B22;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # --- Action buttons ---
 if "action" not in st.session_state:
     st.session_state.action = "update"
