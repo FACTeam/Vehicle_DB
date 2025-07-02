@@ -123,13 +123,13 @@ st.divider()
 
 # ========== Update Existing Vehicle Logic ==========
 if st.session_state.action == "update":
-    st.subheader(" Update Existing Vehicle")
+    st.subheader("Update Existing Vehicle")
 
-vin_list = sorted(final_df['VIN'].dropna().unique().tolist())
-vin = st.selectbox("Select VIN to update", options=[""] + vin_list)
-existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
+    vin_list = sorted(final_df['VIN'].dropna().unique().tolist())
+    vin = st.selectbox("Select VIN to update", options=[""] + vin_list)
+    existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
 
-if not existing_record.empty:
+    if not existing_record.empty:
         vehicle_num = existing_record['Vehicle  #'].values[0]
         year = int(float(existing_record['Year'].values[0])) if pd.notna(existing_record['Year'].values[0]) else ""
         make = existing_record['Make'].values[0]
@@ -229,28 +229,5 @@ elif st.session_state.action == "add":
             st.success(f"✅ New vehicle with VIN {new_vin} added.")
         except Exception as e:
             st.error(f"Error adding vehicle: {e}")
-
-# --- VIN Service History ---
-st.markdown("### VIN Service History")
-
-if st.checkbox("Show Survey Log"):
-    log_df = pd.read_sql_query("SELECT * FROM survey_log ORDER BY Timestamp DESC", conn)
-    st.dataframe(log_df)
-
-vin_list = pd.read_sql_query("SELECT DISTINCT VIN FROM vin_service_log", conn)['VIN'].tolist()
-
-for vin_item in sorted(vin_list):
-    with st.expander(f"▶ VIN: {vin_item}"):
-        history = pd.read_sql_query("""
-            SELECT * FROM vin_service_log
-            WHERE VIN = ?
-            ORDER BY Timestamp DESC
-            LIMIT 2
-        """, conn, params=(vin_item,))
-
-        if not history.empty:
-            st.dataframe(history)
-        else:
-            st.info("No service records found for this VIN.")
-
+# close the connection
 conn.close()
