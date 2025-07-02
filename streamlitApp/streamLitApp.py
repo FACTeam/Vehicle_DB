@@ -57,36 +57,49 @@ st.title("Vehicle Update Form")
 st.markdown(
     """
     <style>
-    body {
-        background-image: url('https://github.com/FACTeam/Vehicle_DB/blob/main/logo.png');  
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
+    /* --- Make the whole page white --- */
+    body, .stApp {
+        background-color: white !important;
+        background-image: none !important;
     }
 
-    .stApp {
-        background-color: rgba(255, 255, 255, 0.5);  /* Slight white background for content */
-        padding: 2rem;
-        border-radius: 10px;
+    /* --- Place the logo at the top-left corner --- */
+    .logo-container {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 100;
     }
 
-    .stButton>button {
+    .logo-container img {
+        width: 150px;
+    }
+
+    /* --- Button styles --- */
+    .stButton > button {
         background-color: #C2002F;
         color: white;
         border: none;
         padding: 0.5rem 1rem;
         border-radius: 8px;
         font-weight: bold;
+        transition: none;
     }
 
-    .stButton>button:hover {
-        background-color: #228B22;
+    .stButton > button:hover {
+        background-color: #C2002F;  /* Keeps the button red on hover */
+        color: white;
     }
     </style>
+
+    <!-- Logo HTML -->
+    <div class="logo-container">
+        <img src="https://raw.githubusercontent.com/FACTeam/Vehicle_DB/main/logo.png">
+    </div>
     """,
     unsafe_allow_html=True
 )
+
 
 # --- Action buttons ---
 if "action" not in st.session_state:
