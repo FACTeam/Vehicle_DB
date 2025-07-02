@@ -125,10 +125,11 @@ st.divider()
 if st.session_state.action == "update":
     st.subheader(" Update Existing Vehicle")
 
-    vin = st.text_input("VIN (required)").strip().upper()
-    existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
+vin_list = sorted(final_df['VIN'].dropna().unique().tolist())
+vin = st.selectbox("Select VIN to update", options=[""] + vin_list)
+existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
 
-    if not existing_record.empty:
+if not existing_record.empty:
         vehicle_num = existing_record['Vehicle  #'].values[0]
         year = int(float(existing_record['Year'].values[0])) if pd.notna(existing_record['Year'].values[0]) else ""
         make = existing_record['Make'].values[0]
