@@ -57,25 +57,13 @@ st.title("Vehicle Update Form")
 st.markdown(
     """
     <style>
-    /* --- Make the whole page white --- */
+    /* --- Entire background white and text black --- */
     body, .stApp {
         background-color: white !important;
-        background-image: none !important;
+        color: black !important;
     }
 
-    /* --- Place the logo at the top-left corner --- */
-    .logo-container {
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        z-index: 100;
-    }
-
-    .logo-container img {
-        width: 150px;
-    }
-
-    /* --- Button styles --- */
+    /* --- Buttons: red, no hover change --- */
     .stButton > button {
         background-color: #C2002F;
         color: white;
@@ -83,22 +71,35 @@ st.markdown(
         padding: 0.5rem 1rem;
         border-radius: 8px;
         font-weight: bold;
-        transition: none;
     }
 
     .stButton > button:hover {
-        background-color: #C2002F;  /* Keeps the button red on hover */
+        background-color: #C2002F;
         color: white;
+    }
+
+    /* --- Full-width logo across top --- */
+    .full-logo-container {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .full-logo-container img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
     }
     </style>
 
-    <!-- Logo HTML -->
-    <div class="logo-container">
-        <img src="https://raw.githubusercontent.com/FACTeam/Vehicle_DB/main/logo.png">
+    <!-- Full-width logo across the top -->
+    <div class="full-logo-container">
+        <img src="https://raw.githubusercontent.com/FACTeam/Vehicle_DB/main/logo.png" alt="Company Logo">
     </div>
     """,
     unsafe_allow_html=True
 )
+
 
 
 # --- Action buttons ---
