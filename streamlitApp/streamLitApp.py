@@ -51,19 +51,24 @@ def load_data():
 
 final_df = load_data()
 
-st.title("Vehicle Update Form")
-
 # --- Background image and color ---
 st.markdown(
     """
     <style>
-    /* --- Entire background white and text black --- */
+    /* --- Global background and text color --- */
     body, .stApp {
         background-color: white !important;
         color: black !important;
     }
 
-    /* --- Buttons: red, no hover change --- */
+    /* --- Target all common text containers and input labels --- */
+    .stMarkdown, .stTextInput label, .stSelectbox label, .stNumberInput label,
+    .stDateInput label, .stTextArea label, .stCheckbox label,
+    .stRadio label, .stExpander, .stDataFrameContainer, .stTable, p, span, h1, h2, h3, h4, h5, h6 {
+        color: black !important;
+    }
+
+    /* --- Buttons: red with no hover color change --- */
     .stButton > button {
         background-color: #C2002F;
         color: white;
@@ -78,7 +83,7 @@ st.markdown(
         color: white;
     }
 
-    /* --- Full-width logo across top --- */
+    /* --- Full-width logo banner --- */
     .full-logo-container {
         width: 100%;
         margin-bottom: 1rem;
@@ -92,7 +97,7 @@ st.markdown(
     }
     </style>
 
-    <!-- Full-width logo across the top -->
+    <!-- Full-width logo banner -->
     <div class="full-logo-container">
         <img src="https://raw.githubusercontent.com/FACTeam/Vehicle_DB/main/logo.png" alt="Company Logo">
     </div>
@@ -100,7 +105,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
+st.title("Vehicle Form")
 
 # --- Action buttons ---
 if "action" not in st.session_state:
