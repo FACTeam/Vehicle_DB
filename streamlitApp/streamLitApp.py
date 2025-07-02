@@ -67,7 +67,7 @@ st.markdown(
 
     /* Optional: Semi-transparent background for widgets */
     .stApp {
-        background-color: rgba(255, 255, 255, 0.85);  /* Light background with opacity */
+        background-color: rgba(243, 205, 0, 0.85);  /* Light background with opacity */
         padding: 2rem;
         border-radius: 10px;
     }
@@ -79,7 +79,7 @@ st.markdown(
     }
 
     .stButton>button {
-        background-color: #2C6E49;
+        background-color: #A2D683;
         color: white;
         border: none;
         padding: 0.5rem 1rem;
@@ -88,7 +88,7 @@ st.markdown(
     }
 
     .stButton>button:hover {
-        background-color: #228B22;
+        background-color: #A2D683;
     }
     </style>
     """,
