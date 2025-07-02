@@ -58,7 +58,7 @@ st.markdown(
     """
     <style>
     body {
-        background-image: url('https://your-image-url-here.com/logo.png');  
+        background-image: url('https://github.com/FACTeam/Vehicle_DB/blob/main/calvinLogo.png');  
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
