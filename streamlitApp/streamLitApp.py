@@ -44,14 +44,14 @@ c.execute('''
     )
 ''')
 
-# --- Load data from final_cleaned ---
+# ==== Load data from final_cleaned ====
 @st.cache_data
 def load_data():
     return pd.read_sql_query("SELECT * FROM final_cleaned", conn)
 
 final_df = load_data()
 
-# --- Background image and color ---
+# === Background image and color ===
 st.markdown(
     """
     <style>
@@ -105,8 +105,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("Vehicle Form")
-
 # --- Action buttons ---
 if "action" not in st.session_state:
     st.session_state.action = "update"
@@ -134,14 +132,25 @@ if st.session_state.action == "update":
         year = int(float(existing_record['Year'].values[0])) if pd.notna(existing_record['Year'].values[0]) else ""
         make = existing_record['Make'].values[0]
         model = existing_record['Model'].values[0]
-        depts = existing_record['Depts'].values[0]
-        calvin_num = existing_record['Calvin #'].values[0]
-        driver_prefill = existing_record['Driver'].values[0]
         color_prefill = existing_record['Color'].values[0]
-        notes_prefill = existing_record['Notes'].values[0]
+        driver_prefill = existing_record['Driver'].values[0]
+        depts = existing_record['Depts'].values[0]
+        mileage_prefill = existing_record['Mileage'].values[0]
+        current_mileage = existing_record['Current Mileage'].values[0]
+        last_service = existing_record['Last Service'].values[0]
         service_prefill = existing_record['Service?'].values[0]
+        date_of_service = existing_record['Date_of_Service'].values[0]
+        calvin_num = existing_record['Calvin #'].values[0]
+        title = existing_record['Title'].values[0]
+        notes_prefill = existing_record['Notes'].values[0]
+        vehicle_type = existing_record['Vehicle'].values[0]
+        last_lof = existing_record['Last LOF'].values[0]
+        tire_condition = existing_record['Tire Condition IN 32nds'].values[0]
+        condition = existing_record['Overall condition'].values[0]
+        kbb = existing_record['KBB Value'].values[0]
     else:
-        vehicle_num = year = make = model = depts = calvin_num = driver_prefill = color_prefill = notes_prefill = service_prefill = ""
+        vehicle_num = year = make = model = color_prefill = driver_prefill = depts = mileage_prefill = current_mileage = last_service = ""
+        service_prefill = date_of_service = calvin_num = title = notes_prefill = vehicle_type = last_lof = tire_condition = condition = kbb = ""
 
     st.text_input("Vehicle #", value=vehicle_num, disabled=True)
     st.text_input("Year", value=year, disabled=True)
@@ -149,44 +158,49 @@ if st.session_state.action == "update":
     st.text_input("Model", value=model, disabled=True)
     st.text_input("Depts", value=depts, disabled=True)
     st.text_input("Calvin #", value=calvin_num, disabled=True)
-
-    driver = st.text_input("Driver", value=driver_prefill)
-    mileage = st.number_input("Current Mileage", min_value=0.0)
-    last_service = st.date_input(" Service Date")
-    color = st.text_input("Color", value=color_prefill)
+    st.text_input("Title", value=title)
+    st.text_input("Driver", value=driver_prefill)
+    st.text_input("Color", value=color_prefill)
+    st.text_input("Vehicle Type", value=vehicle_type)
+    mileage = st.number_input("New Mileage", min_value=0.0)
+    last_service_date = st.date_input("Service Date")
     service_status = st.selectbox("Service?", options=["Yes", "No"], index=0 if service_prefill == "Yes" else 1)
-    Notes = st.text_input("Notes", value=notes_prefill)
+    last_lof = st.text_input("Last LOF", value=last_lof)
+    tire_condition = st.text_input("Tire Condition IN 32nds", value=tire_condition)
+    condition = st.text_input("Overall condition", value=condition)
+    kbb = st.text_input("KBB Value", value=kbb)
+    notes = st.text_area("Notes", value=notes_prefill)
 
     if st.button("Submit Update"):
         if vin == "":
             st.warning("VIN is required to submit the update.")
         else:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            prev = final_df[final_df['VIN'] == vin]
-            prev_current_mileage = prev['Current Mileage'].values[0] if not prev.empty else None
-            prev_service_date = prev['Date_of_Service'].values[0] if not prev.empty else None
 
             c.execute('''
                 UPDATE final_cleaned SET
                     Driver = ?, Mileage = ?, [Current Mileage] = ?, [Last Service] = ?,
-                    [Date_of_Service] = ?, [Service?] = ?, Color = ?, Notes = ?
+                    [Date_of_Service] = ?, [Service?] = ?, Color = ?, Notes = ?,
+                    [Title] = ?, [Last LOF] = ?, [Tire Condition IN 32nds] = ?,
+                    [Overall condition] = ?, [KBB Value] = ?, Vehicle = ?
                 WHERE VIN = ?
             ''', (
-                driver.strip(), prev_current_mileage, mileage, prev_service_date,
-                str(last_service), service_status, color.strip(), Notes.strip(), vin
+                driver_prefill.strip(), mileage_prefill, mileage, last_service,
+                str(last_service_date), service_status, color_prefill.strip(), notes.strip(),
+                title, last_lof, tire_condition, condition, kbb, vehicle_type, vin
             ))
 
             c.execute('''
                 INSERT INTO survey_log (VIN, Driver, Mileage, Last_Service, Color, Service, Notes, Timestamp)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (vin, driver.strip(), mileage, str(last_service), color.strip(),
-                  service_status, Notes.strip(), timestamp))
+            ''', (vin, driver_prefill.strip(), mileage, str(last_service_date), color_prefill.strip(),
+                  service_status, notes.strip(), timestamp))
 
             c.execute('''
                 INSERT INTO vin_service_log (VIN, Driver, Mileage, Last_Service, Color, Notes, Timestamp)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
-            ''', (vin, driver.strip(), mileage, str(last_service), color.strip(),
-                  Notes.strip(), timestamp))
+            ''', (vin, driver_prefill.strip(), mileage, str(last_service_date), color_prefill.strip(),
+                  notes.strip(), timestamp))
 
             conn.commit()
             st.success(f"✅ Update submitted for VIN: {vin}")
@@ -201,36 +215,72 @@ elif st.session_state.action == "add":
     new_model = st.text_input("Model")
     new_depts = st.text_input("Depts")
     new_calvin = st.text_input("Calvin #")
+    new_title = st.text_input("Title")
     new_driver = st.text_input("Driver")
+    new_color = st.text_input("Color")
+    new_vehicle_type = st.text_input("Vehicle Type")
     new_mileage = st.number_input("Initial Mileage", min_value=0.0, key="new_mileage")
     new_last_service = st.date_input("Initial Service Date", key="new_service")
-    new_color = st.text_input("Color")
     new_service = st.selectbox("Service?", options=["Yes", "No"], key="new_service_status")
-    new_notes = st.text_area("Notes")
     new_last_lof = st.text_input("Last LOF")
     new_tire_condition = st.text_input("Tire Condition IN 32nds")
     new_condition = st.text_input("Overall condition")
     new_kbb = st.text_input("KBB Value")
+    new_notes = st.text_area("Notes")
 
     if st.button("Save New Vehicle"):
         try:
             c.execute("""
                 INSERT INTO final_cleaned (
-                    VIN, [Vehicle  #], Year, Make, Model, Depts, [Calvin #], Driver,
-                    [Current Mileage], [Date_of_Service], [Service?], Color, Notes,
-                    [Last LOF], [Tire Condition IN 32nds], [Overall condition], [KBB Value]
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    VIN, [Vehicle  #], Year, Make, Model, Depts, [Calvin #], Title, Driver,
+                    Color, Vehicle, [Current Mileage], [Date_of_Service], [Service?],
+                    [Last LOF], [Tire Condition IN 32nds], [Overall condition], [KBB Value], Notes
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 new_vin, new_vehicle_num, new_year, new_make, new_model, new_depts,
-                new_calvin, new_driver, new_mileage, str(new_last_service), new_service,
-                new_color, new_notes, new_last_lof, new_tire_condition, new_condition, new_kbb
+                new_calvin, new_title, new_driver, new_color, new_vehicle_type, new_mileage,
+                str(new_last_service), new_service, new_last_lof, new_tire_condition,
+                new_condition, new_kbb, new_notes
             ))
             conn.commit()
             st.success(f"✅ New vehicle with VIN {new_vin} added.")
         except Exception as e:
             st.error(f"Error adding vehicle: {e}")
-# close the connection
+
+# --- VIN Service History ---
+st.markdown("### VIN Service History")
+
+if st.checkbox("Show Survey Log"):
+    log_df = pd.read_sql_query("SELECT * FROM survey_log ORDER BY Timestamp DESC", conn)
+    st.dataframe(log_df)
+
+vin_list = pd.read_sql_query("SELECT DISTINCT VIN FROM vin_service_log", conn)['VIN'].tolist()
+
+for vin_item in sorted(vin_list):
+    with st.expander(f"\u25b6 VIN: {vin_item}"):
+        history = pd.read_sql_query("""
+            SELECT * FROM vin_service_log
+            WHERE VIN = ?
+            ORDER BY Timestamp DESC
+            LIMIT 2
+        """, conn, params=(vin_item,))
+
+        if not history.empty:
+            st.dataframe(history)
+        else:
+            st.info("No service records found for this VIN.")
+
+# --- Download Final Cleaned Table ---
+st.markdown("### \ud83d\udcc5 Download Vehicle Database")
+updated_df = pd.read_sql_query("SELECT * FROM final_cleaned", conn)
+csv = updated_df.to_csv(index=False).encode("utf-8")
+st.download_button(
+    label="Download Current Vehicle Data as CSV",
+    data=csv,
+    file_name="vehicle_database.csv",
+    mime="text/csv",
+    help="Click to download the full vehicle table"
+)
+
+# --- Close DB connection ---
 conn.close()
-
-
-# add all the fields for the updating existing vehcile 
