@@ -21,7 +21,6 @@ def ensure_column(name, dtype):
     """Ensure a column exists in the final_cleaned table."""
     existing_cols = [col[1] for col in c.execute("PRAGMA table_info(final_cleaned)").fetchall()]
     if name not in existing_cols:
-        # Validate column name and type to prevent SQL injection
         allowed_types = {"TEXT", "INTEGER", "REAL", "BLOB"}
         if not name.replace("_", "").replace(" ", "").isalnum():
             raise ValueError(f"Invalid column name: {name}")
@@ -83,8 +82,6 @@ st.markdown(
 )
 
 st.title("Vehicle Form")
-
-# --- Removed Sidebar Filters ---
 
 if "action" not in st.session_state:
     st.session_state.action = "update"
@@ -219,63 +216,63 @@ elif st.session_state.action == "add":
         responses["VIN"] = st.text_input("VIN", key="vin_add")
         responses["Vehicle  #"] = st.text_input("Vehicle  #", key="vehicle_num_add")
         responses["Year"] = st.text_input("Year", key="year_add")
-        responses["Make"] = st.selectbox("Make", options=known_makes, key="make_add")
+        responses["Make"] = st.selectbox("Make", options=known_makes, key="make_add")key="vehicle_num_add")
         responses["Model"] = st.text_input("Model", key="model_add")
-        responses["Color"] = st.selectbox("Color", options=known_colors, key="color_add")
+        responses["Color"] = st.selectbox("Color", options=known_colors, key="color_add")kes, key="make_add")
         responses["Vehicle"] = st.text_input("Vehicle", key="vehicle_add")
-        responses["Title"] = st.text_input("Title", key="title_add")
+        responses["Title"] = st.text_input("Title", key="title_add")ors, key="color_add")
         responses["Driver"] = st.text_input("Driver", key="driver_add")
         responses["Depts"] = st.text_input("Depts", key="depts_add")
-        responses["Calvin #"] = st.text_input("Calvin #", key="calvin_add")
+        responses["Calvin #"] = st.text_input("Calvin #", key="calvin_add")d")
         responses["Last LOF"] = st.text_input("Last LOF", key="last_lof_add")
-        responses["Tire Condition IN 32nds"] = st.text_input("Tire Condition IN 32nds", key="tire_condition_add")
-        responses["Overall condition"] = st.text_input("Overall condition", key="overall_condition_add")
-        responses["KBB Value"] = st.text_input("KBB Value", key="kbb_value_add")
+        responses["Tire Condition IN 32nds"] = st.text_input("Tire Condition IN 32nds", key="tire_condition_add")n_add")
+        responses["Overall condition"] = st.text_input("Overall condition", key="overall_condition_add")")
+        responses["KBB Value"] = st.text_input("KBB Value", key="kbb_value_add")IN 32nds", key="tire_condition_add")
         responses["Notes"] = st.text_area("Notes", key="notes_add")
         mileage = st.number_input("Initial Mileage", min_value=0.0, key="initial_mileage_add")
         last_service = st.date_input("Initial Service Date", key="initial_service_date_add")
-        service_status = st.selectbox("Service?", options=["Yes", "No"], key="service_status_add")
-        submitted = st.form_submit_button("Save New Vehicle", key="save_new_vehicle_btn")
-        if submitted:
+        service_status = st.selectbox("Service?", options=["Yes", "No"], key="service_status_add") key="initial_mileage_add")
+        submitted = st.form_submit_button("Submit New Vehicle", key="save_new_vehicle_btn")
+        if submitted:_add")
             # Input validation
             if not responses["VIN"]:
-                st.error("VIN is required.")
-            elif final_df['VIN'].eq(responses["VIN"]).any():
-                st.error("A vehicle with this VIN already exists.")
-            else:
-                try:
+                st.error("VIN is required.")alidation
+            elif final_df['VIN'].eq(responses["VIN"]).any():VIN"]:
+                st.error("A vehicle with this VIN already exists.")uired.")
+            else:s["VIN"]).any():
+                try:ists.")
                     c.execute('''
-                        INSERT INTO final_cleaned (
-                            VIN, [Vehicle  #], Year, Make, Model, Color, [Vehicle], Title,
-                            Driver, Depts, [Calvin #], [Current Mileage], Mileage,
-                            [Date_of_Service], [Last Service], [Service?], [Last LOF],
+                        INSERT INTO final_cleaned (ry:
+                            VIN, [Vehicle  #], Year, Make, Model, Color, [Vehicle], Title,c.execute('''
+                            Driver, Depts, [Calvin #], [Current Mileage], Mileage,TO final_cleaned (
+                            [Date_of_Service], [Last Service], [Service?], [Last LOF],, Make, Model, Color, [Vehicle], Title,
                             [Tire Condition IN 32nds], [Overall condition], [KBB Value], Notes
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    ''', (
-                        responses["VIN"], responses["Vehicle  #"], responses["Year"], responses["Make"], responses["Model"],
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)OF],
+                    ''', (], Notes
+                        responses["VIN"], responses["Vehicle  #"], responses["Year"], responses["Make"], responses["Model"],?)
                         responses["Color"], responses["Vehicle"], responses["Title"], responses["Driver"], responses["Depts"],
-                        responses["Calvin #"], mileage, mileage, str(last_service), str(last_service), service_status,
-                        responses["Last LOF"], responses["Tire Condition IN 32nds"], responses["Overall condition"],
+                        responses["Calvin #"], mileage, mileage, str(last_service), str(last_service), service_status,sponses["VIN"], responses["Vehicle  #"], responses["Year"], responses["Make"], responses["Model"],
+                        responses["Last LOF"], responses["Tire Condition IN 32nds"], responses["Overall condition"],],
                         responses["KBB Value"], responses["Notes"]
                     ))
                     conn.commit()
                     st.success(f"✅ New vehicle with VIN {responses['VIN']} added.")
-                    # Refresh data
-                    final_df = load_data()
+                    # Refresh datann.commit()
+                    final_df = load_data()✅ New vehicle with VIN {responses['VIN']} added.")
                 except Exception as e:
-                    st.error(f"Error adding vehicle: {e}")
+                    st.error(f"Error adding vehicle: {e}")d_data()
 
-st.markdown("---")
+st.markdown("---")dding vehicle: {e}")
 if st.button("Show Full Database", key="show_db_btn"):
-    st.markdown("### Full Vehicle Database")
-    st.dataframe(final_df)
+    st.markdown("### Full Vehicle Database")st.markdown("---")
+    st.dataframe(final_df) Full Database", key="show_db_btn"):
 
 # ========== Download Most Recent Data ==========
 st.markdown("### Download Final Table")
-export_df = pd.read_sql_query("SELECT * FROM final_cleaned", conn)
+export_df = pd.read_sql_query("SELECT * FROM final_cleaned", conn)# ========== Download Most Recent Data ==========
 buffer = StringIO()
-export_df.to_csv(buffer, index=False, encoding='utf-8')
+export_df.to_csv(buffer, index=False, encoding='utf-8') FROM final_cleaned", conn)
 buffer.seek(0)
-b64 = base64.b64encode(buffer.getvalue().encode()).decode()
+b64 = base64.b64encode(buffer.getvalue().encode()).decode()ffer, index=False, encoding='utf-8')
 href = f'<a href="data:file/csv;base64,{b64}" download="vehicle_data.csv">📅 Download CSV</a>'
 st.markdown(href, unsafe_allow_html=True)
