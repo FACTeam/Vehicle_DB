@@ -13,7 +13,8 @@ DB_PATH = os.path.abspath(os.path.join(BASE_DIR, "mydata.db"))
 if not os.path.exists(DB_PATH):
     raise FileNotFoundError(f"❌ Database not found at: {DB_PATH}")
 
-st.info(f"✅ Connecting to: {DB_PATH}")
+# Optionally, use st.caption instead of st.info to make the connection message less prominent
+st.caption(f"Connected to: {DB_PATH}")
 
 conn = sqlite3.connect(DB_PATH, check_same_thread=False)
 c = conn.cursor()
@@ -122,40 +123,50 @@ def get_value_or_prompt(field, df, editable=False):
 if st.session_state.action == "update":
     st.subheader("Update Existing Vehicle")
     vin_list = sorted(final_df['VIN'].dropna().unique().tolist())
-    vin = st.selectbox("Select VIN to update", options=[""] + vin_list)
+    vin = st.selectbox("Select VIN to update", options=[""] + vin_list, key="select_vin_update")
     existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
 
     if not existing_record.empty:
         st.markdown("**🛠️ Is the vehicle being serviced?**")
-        service_status = st.selectbox("", options=["No", "Yes"])
+        service_status = st.selectbox(
+            "", options=["No", "Yes"], key="service_status_update"
+        )
 
         if service_status == "Yes":
-            st.text_input("Vehicle #", value=existing_record['Vehicle  #'].values[0], disabled=True)
-            st.text_input("Year", value=int(float(existing_record['Year'].values[0])), disabled=True)
-            st.text_input("Make", value=existing_record['Make'].values[0])
-            st.text_input("Model", value=existing_record['Model'].values[0])
-            st.text_input("Color", value=existing_record['Color'].values[0])
-            st.text_input("Vehicle", value=existing_record['Vehicle'].values[0])
-            st.text_input("Title", value=existing_record['Title'].values[0])
-            st.text_input("Driver", value=existing_record['Driver'].values[0])
-            st.text_input("Depts", value=existing_record['Depts'].values[0])
-            st.text_input("Calvin #", value=existing_record['Calvin #'].values[0])
+            st.text_input("Vehicle #", value=existing_record['Vehicle  #'].values[0], disabled=True, key="vehicle_num_update")
+            st.text_input("Year", value=int(float(existing_record['Year'].values[0])), disabled=True, key="year_update")
+            st.text_input("Make", value=existing_record['Make'].values[0], key="make_update")
+            st.text_input("Model", value=existing_record['Model'].values[0], key="model_update")
+            st.text_input("Color", value=existing_record['Color'].values[0], key="color_update")
+            st.text_input("Vehicle", value=existing_record['Vehicle'].values[0], key="vehicle_update")
+            st.text_input("Title", value=existing_record['Title'].values[0], key="title_update")
+            st.text_input("Driver", value=existing_record['Driver'].values[0], key="driver_update")
+            st.text_input("Depts", value=existing_record['Depts'].values[0], key="depts_update")
+            st.text_input("Calvin #", value=existing_record['Calvin #'].values[0], key="calvin_update")
 
-        mileage = st.number_input("Current Mileage", min_value=0.0)
-        last_service = st.date_input("Date Serviced (New)")
+        mileage = st.number_input("Current Mileage", min_value=0.0, key="current_mileage_update")
+        last_service = st.date_input("Date Serviced (New)", key="date_serviced_update")
 
         st.markdown("**🛞 Were tires changed?**")
-        tires_changed = st.selectbox("", options=["No", "Yes"])
-        tire_change_date = st.date_input("Tire Change Date") if tires_changed == "Yes" else ""
+        tires_changed = st.selectbox(
+            "", options=["No", "Yes"], key="tires_changed_update"
+        )
+        tire_change_date = st.date_input("Tire Change Date", key="tire_change_date_update") if tires_changed == "Yes" else ""
 
         st.markdown("**🛢️ Was oil changed?**")
-        oil_changed = st.selectbox("Was oil changed?", options=["No", "Yes"])
-        oil_change_date = st.date_input("Oil Change Date") if oil_changed == "Yes" else ""
+        oil_changed = st.selectbox(
+            "Was oil changed?", options=["No", "Yes"], key="oil_changed_update"
+        )
+        oil_change_date = st.date_input("Oil Change Date", key="oil_change_date_update") if oil_changed == "Yes" else ""
 
         st.markdown("**📝 Notes**")
-        notes = st.text_area("Notes", value=existing_record['Notes'].values[0] if pd.notna(existing_record['Notes'].values[0]) else "")
+        notes = st.text_area(
+            "Notes",
+            value=existing_record['Notes'].values[0] if pd.notna(existing_record['Notes'].values[0]) else "",
+            key="notes_update"
+        )
 
-        if st.button("Submit Update"):
+        if st.button("Submit Update", key="submit_update_btn"):
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             prev_service = existing_record['Date_of_Service'].values[0] if 'Date_of_Service' in existing_record.columns else ""
             last_mileage = existing_record['Current Mileage'].values[0] if 'Current Mileage' in existing_record.columns else ""
@@ -208,26 +219,26 @@ elif st.session_state.action == "add":
             "KBB Value": "", "Notes": ""
         }
         responses = {}
-        responses["VIN"] = st.text_input("VIN")
-        responses["Vehicle  #"] = st.text_input("Vehicle  #")
-        responses["Year"] = st.text_input("Year")
-        responses["Make"] = st.selectbox("Make", options=known_makes)
-        responses["Model"] = st.text_input("Model")
-        responses["Color"] = st.selectbox("Color", options=known_colors)
-        responses["Vehicle"] = st.text_input("Vehicle")
-        responses["Title"] = st.text_input("Title")
-        responses["Driver"] = st.text_input("Driver")
-        responses["Depts"] = st.text_input("Depts")
-        responses["Calvin #"] = st.text_input("Calvin #")
-        responses["Last LOF"] = st.text_input("Last LOF")
-        responses["Tire Condition IN 32nds"] = st.text_input("Tire Condition IN 32nds")
-        responses["Overall condition"] = st.text_input("Overall condition")
-        responses["KBB Value"] = st.text_input("KBB Value")
-        responses["Notes"] = st.text_area("Notes")
-        mileage = st.number_input("Initial Mileage", min_value=0.0)
-        last_service = st.date_input("Initial Service Date")
-        service_status = st.selectbox("Service?", options=["Yes", "No"])
-        submitted = st.form_submit_button("Save New Vehicle")
+        responses["VIN"] = st.text_input("VIN", key="vin_add")
+        responses["Vehicle  #"] = st.text_input("Vehicle  #", key="vehicle_num_add")
+        responses["Year"] = st.text_input("Year", key="year_add")
+        responses["Make"] = st.selectbox("Make", options=known_makes, key="make_add")
+        responses["Model"] = st.text_input("Model", key="model_add")
+        responses["Color"] = st.selectbox("Color", options=known_colors, key="color_add")
+        responses["Vehicle"] = st.text_input("Vehicle", key="vehicle_add")
+        responses["Title"] = st.text_input("Title", key="title_add")
+        responses["Driver"] = st.text_input("Driver", key="driver_add")
+        responses["Depts"] = st.text_input("Depts", key="depts_add")
+        responses["Calvin #"] = st.text_input("Calvin #", key="calvin_add")
+        responses["Last LOF"] = st.text_input("Last LOF", key="last_lof_add")
+        responses["Tire Condition IN 32nds"] = st.text_input("Tire Condition IN 32nds", key="tire_condition_add")
+        responses["Overall condition"] = st.text_input("Overall condition", key="overall_condition_add")
+        responses["KBB Value"] = st.text_input("KBB Value", key="kbb_value_add")
+        responses["Notes"] = st.text_area("Notes", key="notes_add")
+        mileage = st.number_input("Initial Mileage", min_value=0.0, key="initial_mileage_add")
+        last_service = st.date_input("Initial Service Date", key="initial_service_date_add")
+        service_status = st.selectbox("Service?", options=["Yes", "No"], key="service_status_add")
+        submitted = st.form_submit_button("Save New Vehicle", key="save_new_vehicle_btn")
         if submitted:
             # Input validation
             if not responses["VIN"]:
