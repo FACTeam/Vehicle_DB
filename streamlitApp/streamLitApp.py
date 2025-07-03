@@ -109,9 +109,20 @@ if st.session_state.action == "update":
     if not existing_record.empty:
         service_status = st.selectbox("Is the vehicle being serviced?", options=["No", "Yes"])
         if service_status == "Yes":
-            mileage = st.number_input("Current Mileage", min_value=0.0)
-            last_service = st.date_input("Date Serviced (New)")
-
+            st.text_input("Vehicle #", value=existing_record['Vehicle  #'].values[0], disabled=True)
+            st.text_input("Year", value=int(float(existing_record['Year'].values[0])), disabled=True)
+            st.text_input("Make", value=existing_record['Make'].values[0])
+            st.text_input("Model", value=existing_record['Model'].values[0])
+            st.text_input("Color", value=existing_record['Color'].values[0])
+            st.text_input("Vehicle", value=existing_record['Vehicle'].values[0])
+            st.text_input("Title", value=existing_record['Title'].values[0])
+            st.text_input("Driver", value=existing_record['Driver'].values[0])
+            st.text_input("Depts", value=existing_record['Depts'].values[0])
+            st.text_input("Calvin #", value=existing_record['Calvin #'].values[0])
+        
+    mileage = st.number_input("Current Mileage", min_value=0.0)
+    last_service = st.date_input("Date Serviced (New)")
+  
         tires_changed = st.selectbox("Were tires changed?", options=["No", "Yes"])
         tire_change_date = st.date_input("Tire Change Date") if tires_changed == "Yes" else ""
 
