@@ -13,9 +13,6 @@ DB_PATH = os.path.abspath(os.path.join(BASE_DIR, "mydata.db"))
 if not os.path.exists(DB_PATH):
     raise FileNotFoundError(f"❌ Database not found at: {DB_PATH}")
 
-# Optionally, use st.caption instead of st.info to make the connection message less prominent
-st.caption(f"Connected to: {DB_PATH}")
-
 conn = sqlite3.connect(DB_PATH, check_same_thread=False)
 c = conn.cursor()
 
@@ -112,13 +109,23 @@ with col2:
 
 st.divider()
 
-def get_value_or_prompt(field, df, editable=False):
-    """Get a value from df or prompt for input."""
-    if df.empty or field not in df.columns or not pd.notna(df[field].values[0]):
+def get_value_or_prompt(field, df):
+    """
+    Get a value from df or prompt for input.
+    Editable if value is missing/null/empty.
+    """
+    if (
+        df.empty
+        or field not in df.columns
+        or not pd.notna(df[field].values[0])
+        or str(df[field].values[0]).strip() == ""
+    ):
         val = ""
+        editable = True
     else:
         val = df[field].values[0]
-    return st.text_input(field, value=val, disabled=not (editable or val == ""))
+        editable = False
+    return st.text_input(field, value=val, disabled=not editable, key=f"{field}_update")
 
 if st.session_state.action == "update":
     st.subheader("Update Existing Vehicle")
@@ -133,16 +140,16 @@ if st.session_state.action == "update":
         )
 
         if service_status == "Yes":
-            st.text_input("Vehicle #", value=existing_record['Vehicle  #'].values[0], disabled=True, key="vehicle_num_update")
-            st.text_input("Year", value=int(float(existing_record['Year'].values[0])), disabled=True, key="year_update")
-            st.text_input("Make", value=existing_record['Make'].values[0], key="make_update")
-            st.text_input("Model", value=existing_record['Model'].values[0], key="model_update")
-            st.text_input("Color", value=existing_record['Color'].values[0], key="color_update")
-            st.text_input("Vehicle", value=existing_record['Vehicle'].values[0], key="vehicle_update")
-            st.text_input("Title", value=existing_record['Title'].values[0], key="title_update")
-            st.text_input("Driver", value=existing_record['Driver'].values[0], key="driver_update")
-            st.text_input("Depts", value=existing_record['Depts'].values[0], key="depts_update")
-            st.text_input("Calvin #", value=existing_record['Calvin #'].values[0], key="calvin_update")
+            get_value_or_prompt("Vehicle  #", existing_record)
+            get_value_or_prompt("Year", existing_record)
+            get_value_or_prompt("Make", existing_record)
+            get_value_or_prompt("Model", existing_record)
+            get_value_or_prompt("Color", existing_record)
+            get_value_or_prompt("Vehicle", existing_record)
+            get_value_or_prompt("Title", existing_record)
+            get_value_or_prompt("Driver", existing_record)
+            get_value_or_prompt("Depts", existing_record)
+            get_value_or_prompt("Calvin #", existing_record)
 
         mileage = st.number_input("Current Mileage", min_value=0.0, key="current_mileage_update")
         last_service = st.date_input("Date Serviced (New)", key="date_serviced_update")
@@ -278,4 +285,4 @@ b64 = base64.b64encode(buffer.getvalue().encode()).decode()
 href = f'<a href="data:file/csv;base64,{b64}" download="vehicle_data.csv">📅 Download CSV</a>'
 st.markdown(href, unsafe_allow_html=True)
 
-# Do not explicitly close the connection here; let Streamlit rerun
+# Do not explicitly close the connection
