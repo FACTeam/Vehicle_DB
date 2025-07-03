@@ -63,6 +63,14 @@ st.markdown(
         background-color: #C2002F;
         color: white;
     }
+    /* Make the expander header/button red */
+    .streamlit-expanderHeader {
+        background-color: #C2002F !important;
+        color: white !important;
+        border-radius: 8px !important;
+        font-weight: bold;
+        padding: 0.5rem 1rem !important;
+    }
     .full-logo-container {
         width: 100%;
         margin-bottom: 1rem;
