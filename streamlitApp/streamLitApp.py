@@ -256,7 +256,7 @@ elif st.session_state.action == "add":
                     st.error(f"Error adding vehicle: {e}")
 
 st.markdown("---")
-if st.button("Show Full Database", key="show_db_btn"):
+with st.expander("Show Full Database", expanded=False):
     st.markdown("### Full Vehicle Database")
     st.dataframe(final_df)
 
