@@ -269,11 +269,8 @@ st.markdown("---")
 if "show_db" not in st.session_state:
     st.session_state.show_db = False
 
-# Red button (inherits your global style)
-if st.button(
-    "Show Full Database" if not st.session_state.show_db else "Hide Full Database",
-    key="show_db_btn"
-):
+# Always show the same button text
+if st.button("Show Full Database", key="show_db_btn"):
     st.session_state.show_db = not st.session_state.show_db
 
 if st.session_state.show_db:
