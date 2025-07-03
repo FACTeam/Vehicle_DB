@@ -124,7 +124,7 @@ if st.session_state.action == "update":
     existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
 
     if not existing_record.empty:
-        st.markdown("**🛠️ Is the vehicle being serviced?**")
+        st.markdown("** Is the vehicle being serviced?**")
         service_status = st.selectbox(
             "", options=["No", "Yes"], key="service_status_update"
         )
@@ -144,19 +144,19 @@ if st.session_state.action == "update":
         mileage = st.number_input("Current Mileage", min_value=0.0, key="current_mileage_update")
         last_service = st.date_input("Date Serviced (New)", key="date_serviced_update")
 
-        st.markdown("**🛞 Were tires changed?**")
+        st.markdown("** Were tires changed?**")
         tires_changed = st.selectbox(
             "", options=["No", "Yes"], key="tires_changed_update"
         )
         tire_change_date = st.date_input("Tire Change Date", key="tire_change_date_update") if tires_changed == "Yes" else ""
 
-        st.markdown("**🛢️ Was oil changed?**")
+        st.markdown("** Was oil changed?**")
         oil_changed = st.selectbox(
             "Was oil changed?", options=["No", "Yes"], key="oil_changed_update"
         )
         oil_change_date = st.date_input("Oil Change Date", key="oil_change_date_update") if oil_changed == "Yes" else ""
 
-        st.markdown("**📝 Notes**")
+        st.markdown("** Notes**")
         notes = st.text_area(
             "Notes",
             value=existing_record['Notes'].values[0] if pd.notna(existing_record['Notes'].values[0]) else "",
@@ -197,7 +197,7 @@ if st.session_state.action == "update":
             ))
 
             conn.commit()
-            st.success(f"✅ Update submitted for VIN: {vin}")
+            st.success(f" Update submitted for VIN: {vin}")
             # Refresh data and show updated record
             final_df = load_data()
             st.write("Updated record:")
