@@ -7,58 +7,27 @@ import base64
 import os
 
 # --- Set up dynamic path to database ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the current script
-DB_PATH = os.path.abspath(os.path.join(BASE_DIR, "mydata.db"))  # Database now inside app folder
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.abspath(os.path.join(BASE_DIR, "mydata.db"))
 
-# --- Check if database file exists ---
 if not os.path.exists(DB_PATH):
     raise FileNotFoundError(f"❌ Database not found at: {DB_PATH}")
 
 print("✅ Connecting to:", DB_PATH)
 
-# --- Connect to database ---
 conn = sqlite3.connect(DB_PATH, check_same_thread=False)
 c = conn.cursor()
 
-# --- Create necessary tables ---
-c.execute('''
-    CREATE TABLE IF NOT EXISTS survey_log (
-        VIN TEXT,
-        Driver TEXT,
-        Mileage REAL,
-        Last_Service TEXT,
-        Color TEXT,
-        Service TEXT,
-        Notes TEXT,
-        Timestamp TEXT
-    )
-''')
+# --- Create missing columns if not already in the table ---
+existing_cols = [col[1] for col in c.execute("PRAGMA table_info(final_cleaned)").fetchall()]
+def ensure_column(name, dtype):
+    if name not in existing_cols:
+        c.execute(f"ALTER TABLE final_cleaned ADD COLUMN '{name}' {dtype};")
 
-c.execute('''
-    CREATE TABLE IF NOT EXISTS vin_service_log (
-        VIN TEXT,
-        Driver TEXT,
-        Mileage REAL,
-        Last_Service TEXT,
-        Color TEXT,
-        Notes TEXT,
-        Timestamp TEXT
-    )
-''')
-
-# --- Add columns only if they don't already exist ---
-def add_column_if_missing(table, column_name, column_type):
-    c.execute(f"PRAGMA table_info({table})")
-    existing_cols = [info[1] for info in c.fetchall()]
-    if column_name not in existing_cols:
-        c.execute(f"ALTER TABLE {table} ADD COLUMN [{column_name}] {column_type}")
-        print(f"✅ Added column: {column_name}")
-
-# Add required columns
-add_column_if_missing("final_cleaned", "Tires Changed?", "TEXT")
-add_column_if_missing("final_cleaned", "Tire Change Date", "TEXT")
-add_column_if_missing("final_cleaned", "Last Mileage", "TEXT")
-add_column_if_missing("final_cleaned", "Previous LOF", "TEXT")
+ensure_column("Tires Changed?", "TEXT")
+ensure_column("Tire Change Date", "TEXT")
+ensure_column("Last Mileage", "TEXT")
+ensure_column("Previous LOF", "TEXT")
 conn.commit()
 
 @st.cache_data
@@ -67,7 +36,7 @@ def load_data():
 
 final_df = load_data()
 
-# === Background image and color ===
+# === UI Styling ===
 st.markdown(
     """
     <style>
@@ -109,10 +78,8 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 st.title("Vehicle Form")
 
-# --- Action Buttons ---
 if "action" not in st.session_state:
     st.session_state.action = "update"
 
@@ -126,15 +93,10 @@ with col2:
 
 st.divider()
 
-# --- Helper Function ---
 def get_value_or_prompt(field, df, editable=False):
     val = df[field].values[0] if field in df.columns and pd.notna(df[field].values[0]) else ""
-    if editable or val == "":
-        return st.text_input(field, value=val)
-    else:
-        return st.text_input(field, value=val, disabled=True)
+    return st.text_input(field, value=val, disabled=not (editable or val == ""))
 
-# ========== Update Existing Vehicle ==========
 if st.session_state.action == "update":
     st.subheader("Update Existing Vehicle")
     vin_list = sorted(final_df['VIN'].dropna().unique().tolist())
@@ -143,7 +105,7 @@ if st.session_state.action == "update":
 
     if not existing_record.empty:
         vehicle_num = get_value_or_prompt("Vehicle  #", existing_record)
-        year = st.text_input("Year", value=int(float(existing_record['Year'].values[0])) if pd.notna(existing_record['Year'].values[0]) else "")
+        year = st.text_input("Year", value=str(int(float(existing_record['Year'].values[0]))) if pd.notna(existing_record['Year'].values[0]) else "", disabled=True)
         make = get_value_or_prompt("Make", existing_record)
         model = get_value_or_prompt("Model", existing_record)
         color = get_value_or_prompt("Color", existing_record)
@@ -151,22 +113,17 @@ if st.session_state.action == "update":
         title = get_value_or_prompt("Title", existing_record)
         driver = get_value_or_prompt("Driver", existing_record)
         depts = get_value_or_prompt("Depts", existing_record)
-
         mileage = st.number_input("Current Mileage", min_value=0.0)
         last_mileage = existing_record['Current Mileage'].values[0] if 'Current Mileage' in existing_record.columns else ""
-
         last_lof = get_value_or_prompt("Last LOF", existing_record)
         previous_lof = existing_record['Last LOF'].values[0] if 'Last LOF' in existing_record.columns else ""
-
         tire = get_value_or_prompt("Tire Condition IN 32nds", existing_record)
         condition = get_value_or_prompt("Overall condition", existing_record)
         kbb = get_value_or_prompt("KBB Value", existing_record)
-
         notes = st.text_area("Notes", value=existing_record['Notes'].values[0] if pd.notna(existing_record['Notes'].values[0]) else "")
         last_service = st.date_input("Date Serviced (New)")
         prev_service = existing_record['Date_of_Service'].values[0] if 'Date_of_Service' in existing_record.columns else ""
         service_status = st.selectbox("Service?", options=["Yes", "No"])
-
         tires_changed = st.selectbox("Were tires changed?", options=["No", "Yes"])
         tire_change_date = st.date_input("Tire Change Date") if tires_changed == "Yes" else ""
 
@@ -202,7 +159,6 @@ if st.session_state.action == "update":
             conn.commit()
             st.success(f"✅ Update submitted for VIN: {vin}")
 
-# ========== Add New Vehicle ==========
 elif st.session_state.action == "add":
     st.subheader("Add New Vehicle")
     fields = {
@@ -228,7 +184,7 @@ elif st.session_state.action == "add":
             ''', (
                 responses["VIN"], responses["Vehicle  #"], responses["Year"], responses["Make"], responses["Model"],
                 responses["Color"], responses["Vehicle"], responses["Title"], responses["Driver"], responses["Depts"],
-                responses["Calvin #"], mileage, None, str(last_service), None, service_status,
+                responses["Calvin #"], mileage, mileage, str(last_service), None, service_status,
                 responses["Last LOF"], responses["Tire Condition IN 32nds"], responses["Overall condition"],
                 responses["KBB Value"], responses["Notes"]
             ))
@@ -244,7 +200,7 @@ buffer = StringIO()
 export_df.to_csv(buffer, index=False, encoding='utf-8')
 buffer.seek(0)
 b64 = base64.b64encode(buffer.read().encode()).decode()
-href = f'<a href="data:file/csv;base64,{b64}" download="vehicle_data.csv">📅 Download CSV</a>'
+href = f'<a href="data:file/csv;base64,{b64}" download="vehicle_data.csv">📥 Download CSV</a>'
 st.markdown(href, unsafe_allow_html=True)
 
 conn.close()
