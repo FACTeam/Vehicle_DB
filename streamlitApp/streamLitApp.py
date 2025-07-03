@@ -120,8 +120,8 @@ if st.session_state.action == "update":
             st.text_input("Depts", value=existing_record['Depts'].values[0])
             st.text_input("Calvin #", value=existing_record['Calvin #'].values[0])
         
-    mileage = st.number_input("Current Mileage", min_value=0.0)
-    last_service = st.date_input("Date Serviced (New)")
+        mileage = st.number_input("Current Mileage", min_value=0.0)
+        last_service = st.date_input("Date Serviced (New)")
   
         tires_changed = st.selectbox("Were tires changed?", options=["No", "Yes"])
         tire_change_date = st.date_input("Tire Change Date") if tires_changed == "Yes" else ""
