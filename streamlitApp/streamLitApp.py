@@ -256,10 +256,9 @@ elif st.session_state.action == "add":
                     st.error(f"Error adding vehicle: {e}")
 
 st.markdown("---")
-with st.expander("Show Full Database"):
-    if st.button("Show Full Database", key="show_db_btn"):
-        st.markdown("### Full Vehicle Database")
-        st.dataframe(final_df)
+if st.button("Show Full Database", key="show_db_btn"):
+    st.markdown("### Full Vehicle Database")
+    st.dataframe(final_df)
 
 # ========== Download Most Recent Data ==========
 st.markdown("### Download Final Table")
