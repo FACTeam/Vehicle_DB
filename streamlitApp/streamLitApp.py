@@ -46,7 +46,23 @@ c.execute('''
     )
 ''')
 
-# ==== Load data from final_cleaned ====
+
+
+# ==== Load data from final_cleaned ====# --- Ensure table has necessary columns ---
+c.execute("""
+    ALTER TABLE final_cleaned ADD COLUMN IF NOT EXISTS [Tires Changed?] TEXT;
+""")
+c.execute("""
+    ALTER TABLE final_cleaned ADD COLUMN IF NOT EXISTS [Tire Change Date] TEXT;
+""")
+c.execute("""
+    ALTER TABLE final_cleaned ADD COLUMN IF NOT EXISTS [Last Mileage] TEXT;
+""")
+c.execute("""
+    ALTER TABLE final_cleaned ADD COLUMN IF NOT EXISTS [Previous LOF] TEXT;
+""")
+conn.commit()
+
 @st.cache_data
 def load_data():
     return pd.read_sql_query("SELECT * FROM final_cleaned", conn)
@@ -140,7 +156,7 @@ if st.session_state.action == "update":
 
     if not existing_record.empty:
         vehicle_num = get_value_or_prompt("Vehicle  #", existing_record)
-        year = get_value_or_prompt("Year", existing_record)
+        year = st.text_input("Year", value=int(float(existing_record['Year'].values[0])) if pd.notna(existing_record['Year'].values[0]) else "")
         make = get_value_or_prompt("Make", existing_record)
         model = get_value_or_prompt("Model", existing_record)
         color = get_value_or_prompt("Color", existing_record)
@@ -148,17 +164,22 @@ if st.session_state.action == "update":
         title = get_value_or_prompt("Title", existing_record)
         driver = get_value_or_prompt("Driver", existing_record)
         depts = get_value_or_prompt("Depts", existing_record)
+
         mileage = st.number_input("Current Mileage", min_value=0.0)
-        prev_mileage = existing_record['Current Mileage'].values[0] if 'Current Mileage' in existing_record.columns else ""
-        prev_lof = existing_record['Last LOF'].values[0] if 'Last LOF' in existing_record.columns else ""
-        last_lof = st.text_input("Last LOF", value=prev_lof)
+        last_mileage = existing_record['Current Mileage'].values[0] if 'Current Mileage' in existing_record.columns else ""
+
+        last_lof = get_value_or_prompt("Last LOF", existing_record)
+        previous_lof = existing_record['Last LOF'].values[0] if 'Last LOF' in existing_record.columns else ""
+
         tire = get_value_or_prompt("Tire Condition IN 32nds", existing_record)
         condition = get_value_or_prompt("Overall condition", existing_record)
         kbb = get_value_or_prompt("KBB Value", existing_record)
+
         notes = st.text_area("Notes", value=existing_record['Notes'].values[0] if pd.notna(existing_record['Notes'].values[0]) else "")
-        new_service_date = st.date_input("Service Date (New)")
-        prev_service = existing_record['Last Service'].values[0] if 'Last Service' in existing_record.columns else ""
+        last_service = st.date_input("Date Serviced (New)")
+        prev_service = existing_record['Date_of_Service'].values[0] if 'Date_of_Service' in existing_record.columns else ""
         service_status = st.selectbox("Service?", options=["Yes", "No"])
+
         tires_changed = st.selectbox("Were tires changed?", options=["No", "Yes"])
         tire_change_date = st.date_input("Tire Change Date") if tires_changed == "Yes" else ""
 
@@ -167,30 +188,29 @@ if st.session_state.action == "update":
             c.execute('''
                 UPDATE final_cleaned SET
                     [Vehicle  #] = ?, Year = ?, Make = ?, Model = ?, Color = ?, [Vehicle] = ?, [Title] = ?,
-                    Driver = ?, Depts = ?, Mileage = ?, [Current Mileage] = ?, [Last LOF] = ?,
-                    [Tire Condition IN 32nds] = ?, [Overall condition] = ?, [KBB Value] = ?,
-                    Notes = ?, [Date_of_Service] = ?, [Last Service] = ?, [Service?] = ?,
-                    [Tires Changed?] = ?, [Tire Change Date] = ?, [Previous Mileage] = ?, [Previous Service] = ?, [Previous LOF] = ?
+                    Driver = ?, Depts = ?, [Last Mileage] = ?, [Current Mileage] = ?, Mileage = ?,
+                    [Previous LOF] = ?, [Last LOF] = ?, [Tire Condition IN 32nds] = ?, [Overall condition] = ?,
+                    [KBB Value] = ?, Notes = ?, [Last Service] = ?, [Date_of_Service] = ?, [Service?] = ?,
+                    [Tires Changed?] = ?, [Tire Change Date] = ?
                 WHERE VIN = ?
             ''', (
                 vehicle_num, year, make, model, color, vehicle_type, title,
-                driver, depts, prev_mileage, mileage, last_lof,
-                tire, condition, kbb, notes,
-                str(new_service_date), prev_service, service_status,
+                driver, depts, last_mileage, mileage, mileage,
+                previous_lof, last_lof, tire, condition,
+                kbb, notes, prev_service, str(last_service), service_status,
                 tires_changed, str(tire_change_date) if tires_changed == "Yes" else None,
-                prev_mileage, prev_service, prev_lof,
                 vin
             ))
 
             c.execute('''
                 INSERT INTO survey_log (VIN, Driver, Mileage, Last_Service, Color, Service, Notes, Timestamp)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (vin, driver.strip(), mileage, str(new_service_date), color.strip(), service_status, notes.strip(), timestamp))
+            ''', (vin, driver.strip(), mileage, str(last_service), color.strip(), service_status, notes.strip(), timestamp))
 
             c.execute('''
                 INSERT INTO vin_service_log (VIN, Driver, Mileage, Last_Service, Color, Notes, Timestamp)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
-            ''', (vin, driver.strip(), mileage, str(new_service_date), color.strip(), notes.strip(), timestamp))
+            ''', (vin, driver.strip(), mileage, str(last_service), color.strip(), notes.strip(), timestamp))
 
             conn.commit()
             st.success(f"✅ Update submitted for VIN: {vin}")
@@ -199,29 +219,15 @@ if st.session_state.action == "update":
 elif st.session_state.action == "add":
     st.subheader("Add New Vehicle")
     fields = {
-        "VIN": "",
-        "Vehicle  #": "",
-        "Year": "",
-        "Make": "",
-        "Model": "",
-        "Color": "",
-        "Vehicle": "",
-        "Title": "",
-        "Driver": "",
-        "Depts": "",
-        "Calvin #": "",
-        "Last LOF": "",
-        "Tire Condition IN 32nds": "",
-        "Overall condition": "",
-        "KBB Value": "",
-        "Notes": ""
+        "VIN": "", "Vehicle  #": "", "Year": "", "Make": "", "Model": "", "Color": "",
+        "Vehicle": "", "Title": "", "Driver": "", "Depts": "", "Calvin #": "",
+        "Last LOF": "", "Tire Condition IN 32nds": "", "Overall condition": "",
+        "KBB Value": "", "Notes": ""
     }
     responses = {k: st.text_input(k) for k in fields}
     mileage = st.number_input("Initial Mileage", min_value=0.0)
     last_service = st.date_input("Initial Service Date")
     service_status = st.selectbox("Service?", options=["Yes", "No"])
-    tires_changed = st.selectbox("Were tires changed?", options=["No", "Yes"], key="new_tires_changed")
-    tire_change_date = st.date_input("Tire Change Date", key="new_tire_change_date") if tires_changed == "Yes" else ""
 
     if st.button("Save New Vehicle"):
         try:
@@ -230,15 +236,14 @@ elif st.session_state.action == "add":
                     VIN, [Vehicle  #], Year, Make, Model, Color, [Vehicle], Title,
                     Driver, Depts, [Calvin #], [Current Mileage], Mileage,
                     [Date_of_Service], [Last Service], [Service?], [Last LOF],
-                    [Tire Condition IN 32nds], [Overall condition], [KBB Value], Notes,
-                    [Tires Changed?], [Tire Change Date]
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    [Tire Condition IN 32nds], [Overall condition], [KBB Value], Notes
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 responses["VIN"], responses["Vehicle  #"], responses["Year"], responses["Make"], responses["Model"],
                 responses["Color"], responses["Vehicle"], responses["Title"], responses["Driver"], responses["Depts"],
                 responses["Calvin #"], mileage, None, str(last_service), None, service_status,
                 responses["Last LOF"], responses["Tire Condition IN 32nds"], responses["Overall condition"],
-                responses["KBB Value"], responses["Notes"], tires_changed, str(tire_change_date) if tires_changed == "Yes" else None
+                responses["KBB Value"], responses["Notes"]
             ))
             conn.commit()
             st.success(f"✅ New vehicle with VIN {responses['VIN']} added.")
