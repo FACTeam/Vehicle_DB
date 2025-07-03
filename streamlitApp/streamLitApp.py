@@ -46,21 +46,19 @@ c.execute('''
     )
 ''')
 
+# --- Add columns only if they don't already exist ---
+def add_column_if_missing(table, column_name, column_type):
+    c.execute(f"PRAGMA table_info({table})")
+    existing_cols = [info[1] for info in c.fetchall()]
+    if column_name not in existing_cols:
+        c.execute(f"ALTER TABLE {table} ADD COLUMN [{column_name}] {column_type}")
+        print(f"✅ Added column: {column_name}")
 
-
-# ==== Load data from final_cleaned ====# --- Ensure table has necessary columns ---
-c.execute("""
-    ALTER TABLE final_cleaned ADD COLUMN IF NOT EXISTS [Tires Changed?] TEXT;
-""")
-c.execute("""
-    ALTER TABLE final_cleaned ADD COLUMN IF NOT EXISTS [Tire Change Date] TEXT;
-""")
-c.execute("""
-    ALTER TABLE final_cleaned ADD COLUMN IF NOT EXISTS [Last Mileage] TEXT;
-""")
-c.execute("""
-    ALTER TABLE final_cleaned ADD COLUMN IF NOT EXISTS [Previous LOF] TEXT;
-""")
+# Add required columns
+add_column_if_missing("final_cleaned", "Tires Changed?", "TEXT")
+add_column_if_missing("final_cleaned", "Tire Change Date", "TEXT")
+add_column_if_missing("final_cleaned", "Last Mileage", "TEXT")
+add_column_if_missing("final_cleaned", "Previous LOF", "TEXT")
 conn.commit()
 
 @st.cache_data
@@ -73,20 +71,15 @@ final_df = load_data()
 st.markdown(
     """
     <style>
-    /* --- Global background and text color --- */
     body, .stApp {
         background-color: white !important;
         color: black !important;
     }
-
-    /* --- Target all common text containers and input labels --- */
     .stMarkdown, .stTextInput label, .stSelectbox label, .stNumberInput label,
     .stDateInput label, .stTextArea label, .stCheckbox label,
     .stRadio label, .stExpander, .stDataFrameContainer, .stTable, p, span, h1, h2, h3, h4, h5, h6 {
         color: black !important;
     }
-
-    /* --- Buttons: red with no hover color change --- */
     .stButton > button {
         background-color: #C2002F;
         color: white;
@@ -95,18 +88,14 @@ st.markdown(
         border-radius: 8px;
         font-weight: bold;
     }
-
     .stButton > button:hover {
         background-color: #C2002F;
         color: white;
     }
-
-    /* --- Full-width logo banner --- */
     .full-logo-container {
         width: 100%;
         margin-bottom: 1rem;
     }
-
     .full-logo-container img {
         width: 100%;
         height: auto;
@@ -114,8 +103,6 @@ st.markdown(
         object-fit: cover;
     }
     </style>
-
-    <!-- Full-width logo banner -->
     <div class="full-logo-container">
         <img src="https://raw.githubusercontent.com/FACTeam/Vehicle_DB/main/logo.png" alt="Company Logo">
     </div>
@@ -257,7 +244,7 @@ buffer = StringIO()
 export_df.to_csv(buffer, index=False, encoding='utf-8')
 buffer.seek(0)
 b64 = base64.b64encode(buffer.read().encode()).decode()
-href = f'<a href="data:file/csv;base64,{b64}" download="vehicle_data.csv">📥 Download CSV</a>'
+href = f'<a href="data:file/csv;base64,{b64}" download="vehicle_data.csv">📅 Download CSV</a>'
 st.markdown(href, unsafe_allow_html=True)
 
 conn.close()
