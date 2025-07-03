@@ -233,7 +233,7 @@ elif st.session_state.action == "add":
         mileage = st.number_input("Initial Mileage", min_value=0.0, key="initial_mileage_add")
         last_service = st.date_input("Initial Service Date", key="initial_service_date_add")
         service_status = st.selectbox("Service?", options=["Yes", "No"], key="service_status_add")
-        submitted = st.form_submit_button("Submit New Vehicle", key="submit_new_vehicle_btn")
+        submitted = st.form_submit_button("Submit New Vehicle")  # <-- Removed key argument
         if submitted:
             # Input validation
             if not responses["VIN"]:
