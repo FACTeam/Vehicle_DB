@@ -264,11 +264,21 @@ elif st.session_state.action == "add":
                     st.error(f"Error adding vehicle: {e}")
 
 st.markdown("---")
-with st.expander("Show Full Database", expanded=False):
-    # Use a Streamlit button so it gets your global red style
-    if st.button("Show Full Database", key="show_db_btn"):
-        st.markdown("### Full Vehicle Database")
-        st.dataframe(final_df)
+
+# Initialize session state for table visibility
+if "show_db" not in st.session_state:
+    st.session_state.show_db = False
+
+# Red button (inherits your global style)
+if st.button(
+    "Show Full Database" if not st.session_state.show_db else "Hide Full Database",
+    key="show_db_btn"
+):
+    st.session_state.show_db = not st.session_state.show_db
+
+if st.session_state.show_db:
+    st.markdown("### Full Vehicle Database")
+    st.dataframe(final_df)
 
 # ========== Download Most Recent Data ==========
 st.markdown("### Download Final Table")
