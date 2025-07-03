@@ -93,8 +93,7 @@ if vin_filter:
     filtered_df = filtered_df[filtered_df['VIN'].str.contains(vin_filter, case=False, na=False)]
 if driver_filter:
     filtered_df = filtered_df[filtered_df['Driver'].str.contains(driver_filter, case=False, na=False)]
-st.sidebar.markdown("### Filtered Vehicles")
-st.sidebar.dataframe(filtered_df)
+# Removed sidebar database preview
 
 if "action" not in st.session_state:
     st.session_state.action = "update"
@@ -274,6 +273,24 @@ elif st.session_state.action == "add":
                     final_df = load_data()
                 except Exception as e:
                     st.error(f"Error adding vehicle: {e}")
+st.markdown("---")
+if st.button("Show Full Database", key="show_db_btn"):
+    st.markdown("### Full Vehicle Database")
+    st.dataframe(final_df)
+
+    vin_list = sorted(final_df['VIN'].dropna().unique().tolist())
+    selected_vin = st.selectbox("Select VIN to view last 2 submissions", options=[""] + vin_list, key="vin_for_log")
+    if selected_vin:
+        log_df = pd.read_sql_query(
+            "SELECT * FROM survey_log WHERE VIN = ? ORDER BY Timestamp DESC LIMIT 2",
+            conn,
+            params=(selected_vin,)
+        )
+        if not log_df.empty:
+            st.markdown(f"#### Last 2 submissions for VIN: {selected_vin}")
+            st.dataframe(log_df)
+        else:
+            st.info("No submissions found for this VIN.")
 
 # ========== Download Most Recent Data ==========
 st.markdown("### Download Final Table")
