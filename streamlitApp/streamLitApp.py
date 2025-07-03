@@ -84,16 +84,7 @@ st.markdown(
 
 st.title("Vehicle Form")
 
-# --- Sidebar Filters ---
-st.sidebar.header("Filter Vehicles")
-vin_filter = st.sidebar.text_input("Filter by VIN")
-driver_filter = st.sidebar.text_input("Filter by Driver")
-filtered_df = final_df
-if vin_filter:
-    filtered_df = filtered_df[filtered_df['VIN'].str.contains(vin_filter, case=False, na=False)]
-if driver_filter:
-    filtered_df = filtered_df[filtered_df['Driver'].str.contains(driver_filter, case=False, na=False)]
-# Removed sidebar database preview
+# --- Removed Sidebar Filters ---
 
 if "action" not in st.session_state:
     st.session_state.action = "update"
@@ -273,6 +264,7 @@ elif st.session_state.action == "add":
                     final_df = load_data()
                 except Exception as e:
                     st.error(f"Error adding vehicle: {e}")
+
 st.markdown("---")
 if st.button("Show Full Database", key="show_db_btn"):
     st.markdown("### Full Vehicle Database")
@@ -286,11 +278,11 @@ if st.button("Show Full Database", key="show_db_btn"):
             conn,
             params=(selected_vin,)
         )
-        if not log_df.empty:
-            st.markdown(f"#### Last 2 submissions for VIN: {selected_vin}")
-            st.dataframe(log_df)
+        if log_df.shape[0] == 0:
+            st.info("No history yet for this VIN.")
         else:
-            st.info("No submissions found for this VIN.")
+            st.markdown(f"#### Last {log_df.shape[0]} submission(s) for VIN: {selected_vin}")
+            st.dataframe(log_df)
 
 # ========== Download Most Recent Data ==========
 st.markdown("### Download Final Table")
@@ -301,5 +293,3 @@ buffer.seek(0)
 b64 = base64.b64encode(buffer.getvalue().encode()).decode()
 href = f'<a href="data:file/csv;base64,{b64}" download="vehicle_data.csv">📅 Download CSV</a>'
 st.markdown(href, unsafe_allow_html=True)
-
-# Do not explicitly close the connection
