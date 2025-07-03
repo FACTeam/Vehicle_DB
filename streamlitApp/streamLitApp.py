@@ -107,64 +107,69 @@ if st.session_state.action == "update":
     existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
 
     if not existing_record.empty:
-        service_status = st.selectbox("Is the vehicle being serviced?", options=["No", "Yes"])
-        if service_status == "Yes":
-            st.text_input("Vehicle #", value=existing_record['Vehicle  #'].values[0], disabled=True)
-            st.text_input("Year", value=int(float(existing_record['Year'].values[0])), disabled=True)
-            st.text_input("Make", value=existing_record['Make'].values[0])
-            st.text_input("Model", value=existing_record['Model'].values[0])
-            st.text_input("Color", value=existing_record['Color'].values[0])
-            st.text_input("Vehicle", value=existing_record['Vehicle'].values[0])
-            st.text_input("Title", value=existing_record['Title'].values[0])
-            st.text_input("Driver", value=existing_record['Driver'].values[0])
-            st.text_input("Depts", value=existing_record['Depts'].values[0])
-            st.text_input("Calvin #", value=existing_record['Calvin #'].values[0])
-        
-        mileage = st.number_input("Current Mileage", min_value=0.0)
-        last_service = st.date_input("Date Serviced (New)")
-  
-        tires_changed = st.selectbox("Were tires changed?", options=["No", "Yes"])
-        tire_change_date = st.date_input("Tire Change Date") if tires_changed == "Yes" else ""
+       st.markdown("**🛠️ Is the vehicle being serviced?**")
+       service_status = st.selectbox("", options=["No", "Yes"])
 
-        oil_changed = st.selectbox("Was oil changed?", options=["No", "Yes"])
-        oil_change_date = st.date_input("Oil Change Date") if oil_changed == "Yes" else ""
+       if service_status == "Yes":
+           st.text_input("Vehicle #", value=existing_record['Vehicle  #'].values[0], disabled=True)
+           st.text_input("Year", value=int(float(existing_record['Year'].values[0])), disabled=True)
+           st.text_input("Make", value=existing_record['Make'].values[0])
+           st.text_input("Model", value=existing_record['Model'].values[0])
+           st.text_input("Color", value=existing_record['Color'].values[0])
+           st.text_input("Vehicle", value=existing_record['Vehicle'].values[0])
+           st.text_input("Title", value=existing_record['Title'].values[0])
+           st.text_input("Driver", value=existing_record['Driver'].values[0])
+           st.text_input("Depts", value=existing_record['Depts'].values[0])
+           st.text_input("Calvin #", value=existing_record['Calvin #'].values[0])
+       
+       mileage = st.number_input("Current Mileage", min_value=0.0)
+       last_service = st.date_input("Date Serviced (New)")
+ 
+       st.markdown("**🛞 Were tires changed?**")
+       tires_changed = st.selectbox("", options=["No", "Yes"])
+       tire_change_date = st.date_input("Tire Change Date") if tires_changed == "Yes" else ""
 
-        notes = st.text_area("Notes", value=existing_record['Notes'].values[0] if pd.notna(existing_record['Notes'].values[0]) else "")
+       st.markdown("**🛢️ Was oil changed?**")
+       oil_changed = st.selectbox("Was oil changed?", options=["No", "Yes"])
+       oil_change_date = st.date_input("Oil Change Date") if oil_changed == "Yes" else ""
 
-        if st.button("Submit Update"):
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            prev_service = existing_record['Date_of_Service'].values[0] if 'Date_of_Service' in existing_record.columns else ""
-            last_mileage = existing_record['Current Mileage'].values[0] if 'Current Mileage' in existing_record.columns else ""
-            previous_lof = existing_record['Last LOF'].values[0] if 'Last LOF' in existing_record.columns else ""
+       st.markdown("**📝 Notes**")
+       notes = st.text_area("Notes", value=existing_record['Notes'].values[0] if pd.notna(existing_record['Notes'].values[0]) else "")
 
-            c.execute('''
-                UPDATE final_cleaned SET
-                    [Last Mileage] = ?, [Current Mileage] = ?, Mileage = ?,
-                    [Previous LOF] = ?, [Last LOF] = ?,
-                    [Last Service] = ?, [Date_of_Service] = ?, [Service?] = ?,
-                    [Tires Changed?] = ?, [Tire Change Date] = ?,
-                    [Oil Changed?] = ?, [Oil Change Date] = ?, Notes = ?
-                WHERE VIN = ?
-            ''', (
-                last_mileage, mileage, mileage,
-                previous_lof, previous_lof,
-                prev_service, str(last_service) if service_status == "Yes" else prev_service, service_status,
-                tires_changed, str(tire_change_date) if tires_changed == "Yes" else None,
-                oil_changed, str(oil_change_date) if oil_changed == "Yes" else None,
-                notes, vin
-            ))
+       if st.button("Submit Update"):
+           timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+           prev_service = existing_record['Date_of_Service'].values[0] if 'Date_of_Service' in existing_record.columns else ""
+           last_mileage = existing_record['Current Mileage'].values[0] if 'Current Mileage' in existing_record.columns else ""
+           previous_lof = existing_record['Last LOF'].values[0] if 'Last LOF' in existing_record.columns else ""
 
-            c.execute('''
-                INSERT INTO survey_log (VIN, Driver, Mileage, Last_Service, Color, Service, Notes, Timestamp)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (
-                vin, existing_record['Driver'].values[0], mileage if service_status == "Yes" else None,
-                str(last_service) if service_status == "Yes" else None,
-                existing_record['Color'].values[0], service_status, notes.strip(), timestamp
-            ))
+           c.execute('''
+               UPDATE final_cleaned SET
+                   [Last Mileage] = ?, [Current Mileage] = ?, Mileage = ?,
+                   [Previous LOF] = ?, [Last LOF] = ?,
+                   [Last Service] = ?, [Date_of_Service] = ?, [Service?] = ?,
+                   [Tires Changed?] = ?, [Tire Change Date] = ?,
+                   [Oil Changed?] = ?, [Oil Change Date] = ?, Notes = ?
+               WHERE VIN = ?
+           ''', (
+               last_mileage, mileage, mileage,
+               previous_lof, previous_lof,
+               prev_service, str(last_service) if service_status == "Yes" else prev_service, service_status,
+               tires_changed, str(tire_change_date) if tires_changed == "Yes" else None,
+               oil_changed, str(oil_change_date) if oil_changed == "Yes" else None,
+               notes, vin
+           ))
 
-            conn.commit()
-            st.success(f"✅ Update submitted for VIN: {vin}")
+           c.execute('''
+               INSERT INTO survey_log (VIN, Driver, Mileage, Last_Service, Color, Service, Notes, Timestamp)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+           ''', (
+               vin, existing_record['Driver'].values[0], mileage if service_status == "Yes" else None,
+               str(last_service) if service_status == "Yes" else None,
+               existing_record['Color'].values[0], service_status, notes.strip(), timestamp
+           ))
+
+           conn.commit()
+           st.success(f"✅ Update submitted for VIN: {vin}")
 
 elif st.session_state.action == "add":
     st.subheader("Add New Vehicle")
