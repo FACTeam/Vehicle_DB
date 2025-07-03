@@ -270,20 +270,6 @@ if st.button("Show Full Database", key="show_db_btn"):
     st.markdown("### Full Vehicle Database")
     st.dataframe(final_df)
 
-    vin_list = sorted(final_df['VIN'].dropna().unique().tolist())
-    selected_vin = st.selectbox("Select VIN to view last 2 submissions", options=[""] + vin_list, key="vin_for_log")
-    if selected_vin:
-        log_df = pd.read_sql_query(
-            "SELECT * FROM survey_log WHERE VIN = ? ORDER BY Timestamp DESC LIMIT 2",
-            conn,
-            params=(selected_vin,)
-        )
-        if log_df.shape[0] == 0:
-            st.info("No history yet for this VIN.")
-        else:
-            st.markdown(f"#### Last {log_df.shape[0]} submission(s) for VIN: {selected_vin}")
-            st.dataframe(log_df)
-
 # ========== Download Most Recent Data ==========
 st.markdown("### Download Final Table")
 export_df = pd.read_sql_query("SELECT * FROM final_cleaned", conn)
