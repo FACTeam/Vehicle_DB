@@ -6,7 +6,7 @@ from io import StringIO
 import base64
 import os
 
-# --- Set up dynamic path to database ---
+# === Set up dynamic path to database ===
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.abspath(os.path.join(BASE_DIR, "mydata.db"))
 
@@ -16,7 +16,7 @@ if not os.path.exists(DB_PATH):
 conn = sqlite3.connect(DB_PATH, check_same_thread=False)
 c = conn.cursor()
 
-# --- Create missing columns if not already in the table ---
+# === Create missing columns if not already in the table ===
 def ensure_column(name, dtype):
     """Ensure a column exists in the final_cleaned table."""
     existing_cols = [col[1] for col in c.execute("PRAGMA table_info(final_cleaned)").fetchall()]
