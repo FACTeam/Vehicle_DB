@@ -152,7 +152,6 @@ if st.session_state.action == "update":
             selected_row = filtered.iloc[0]
             vin = selected_row["VIN"]
         else:
-            # Let user pick from filtered results (show friendly label)
             option_labels = filtered["search_label"].tolist()
             selected_label = st.selectbox(
                 "Select Vehicle to update",
@@ -170,17 +169,30 @@ if st.session_state.action == "update":
             "Service Status", options=["No", "Yes"], key="service_status_update", label_visibility="collapsed"
         )
 
+        # --- Editable, auto-populated fields ---
         if service_status == "Yes":
-            get_value_or_prompt("Vehicle  #", existing_record)
-            get_value_or_prompt("Year", existing_record, number=True)  # Make year editable integer
-            get_value_or_prompt("Make", existing_record)
-            get_value_or_prompt("Model", existing_record)
-            get_value_or_prompt("Color", existing_record)
-            get_value_or_prompt("Vehicle", existing_record)
-            get_value_or_prompt("Title", existing_record)
-            get_value_or_prompt("Driver", existing_record)
-            get_value_or_prompt("Depts", existing_record)
-            get_value_or_prompt("Calvin #", existing_record)
+            vehicle_num = get_value_or_prompt("Vehicle  #", existing_record)
+            year = get_value_or_prompt("Year", existing_record, number=True)
+            make = get_value_or_prompt("Make", existing_record)
+            model = get_value_or_prompt("Model", existing_record)
+            color = get_value_or_prompt("Color", existing_record)
+            vehicle = get_value_or_prompt("Vehicle", existing_record)
+            title = get_value_or_prompt("Title", existing_record)
+            driver = get_value_or_prompt("Driver", existing_record)
+            depts = get_value_or_prompt("Depts", existing_record)
+            calvin_num = get_value_or_prompt("Calvin #", existing_record)
+        else:
+            # If not being serviced, keep old values
+            vehicle_num = existing_record["Vehicle  #"].values[0]
+            year = existing_record["Year"].values[0]
+            make = existing_record["Make"].values[0]
+            model = existing_record["Model"].values[0]
+            color = existing_record["Color"].values[0]
+            vehicle = existing_record["Vehicle"].values[0]
+            title = existing_record["Title"].values[0]
+            driver = existing_record["Driver"].values[0]
+            depts = existing_record["Depts"].values[0]
+            calvin_num = existing_record["Calvin #"].values[0]
 
         mileage = st.number_input("Current Mileage", min_value=0.0, key="current_mileage_update")
         last_service = st.date_input("Date Serviced (New)", key="date_serviced_update")
@@ -210,9 +222,10 @@ if st.session_state.action == "update":
             last_mileage = existing_record['Current Mileage'].values[0] if 'Current Mileage' in existing_record.columns else ""
             previous_lof = existing_record['Last LOF'].values[0] if 'Last LOF' in existing_record.columns else ""
 
-            # Set last_mileage to the previous value and mileage to the new input
+            # --- Use the edited values in your UPDATE ---
             c.execute('''
                 UPDATE final_cleaned SET
+                    [Vehicle  #] = ?, Year = ?, Make = ?, Model = ?, Color = ?, [Vehicle] = ?, Title = ?, Driver = ?, Depts = ?, [Calvin #] = ?,
                     [Last Mileage] = ?, [Current Mileage] = ?, Mileage = ?,
                     [Previous LOF] = ?, [Last LOF] = ?,
                     [Last Service] = ?, [Date_of_Service] = ?, [Service?] = ?,
@@ -220,6 +233,7 @@ if st.session_state.action == "update":
                     [Oil Changed?] = ?, [Oil Change Date] = ?, Notes = ?
                 WHERE VIN = ?
             ''', (
+                vehicle_num, year, make, model, color, vehicle, title, driver, depts, calvin_num,
                 last_mileage, mileage, mileage,
                 previous_lof, previous_lof,
                 prev_service, str(last_service), service_status,
@@ -232,9 +246,9 @@ if st.session_state.action == "update":
                 INSERT INTO survey_log (VIN, Driver, Mileage, Last_Service, Color, Service, Notes, Timestamp)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                vin, existing_record['Driver'].values[0], mileage if service_status == "Yes" else None,
+                vin, driver, mileage if service_status == "Yes" else None,
                 str(last_service) if service_status == "Yes" else None,
-                existing_record['Color'].values[0], service_status, notes.strip(), timestamp
+                color, service_status, notes.strip(), timestamp
             ))
 
             conn.commit()
