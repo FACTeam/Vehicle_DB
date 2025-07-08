@@ -145,15 +145,25 @@ if st.session_state.action == "update":
             final_df["Driver"].astype(str).str.contains(search_query, case=False, na=False)
         ]
     else:
-        filtered = final_df
+        filtered = pd.DataFrame()  # No search, no results
 
-    # Let user pick from filtered results
-    vin = st.selectbox(
-        "Select Vehicle to update",
-        options=[""] + filtered["VIN"].dropna().unique().tolist(),
-        key="select_vin_update"
-    )
-    existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
+    # If only one match, auto-select it; if multiple, let user pick; if none, show nothing
+    if not filtered.empty:
+        if len(filtered) == 1:
+            selected_row = filtered.iloc[0]
+            vin = selected_row["VIN"]
+        else:
+            # Let user pick from filtered results (show friendly label)
+            option_labels = filtered["search_label"].tolist()
+            selected_label = st.selectbox(
+                "Select Vehicle to update",
+                options=option_labels,
+                key="select_vehicle_label"
+            )
+            vin = filtered[filtered["search_label"] == selected_label]["VIN"].values[0]
+        existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
+    else:
+        existing_record = pd.DataFrame()
 
     if not existing_record.empty:
         st.markdown("**Is the vehicle being serviced?**")
