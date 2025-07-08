@@ -112,8 +112,12 @@ def get_value_or_prompt(field, df, number=False):
     """
     val = df[field].values[0] if (not df.empty and field in df.columns and pd.notna(df[field].values[0])) else ""
     if number:
-        # For year, force integer
-        return st.number_input(field, value=int(val) if str(val).isdigit() else 0, step=1, format="%d", key=f"{field}_update")
+        # Try to convert to float if possible, else default to None (shows empty)
+        try:
+            float_val = float(val)
+        except (ValueError, TypeError):
+            float_val = None
+        return st.number_input(field, value=float_val, step=1.0, format="%.0f", key=f"{field}_update")
     else:
         return st.text_input(field, value=str(val), key=f"{field}_update")
 
