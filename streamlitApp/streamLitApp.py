@@ -121,12 +121,12 @@ def get_value_or_prompt(field, df, number=False):
 if st.session_state.action == "update":
     st.subheader("Update Existing Vehicle")
 
-    # Combine Vehicle #, VIN, and Driver for search
-    final_df = load_data()
-    final_df["search_label"] = (
-        "Vehicle#: " + final_df["Vehicle  #"].astype(str) +
-        " | VIN: " + final_df["VIN"].astype(str) +
-        " | Driver: " + final_df["Driver"].astype(str)
+    # Always fetch the latest data for the survey/update section
+    survey_df = load_data()
+    survey_df["search_label"] = (
+        "Vehicle#: " + survey_df["Vehicle  #"].astype(str) +
+        " | VIN: " + survey_df["VIN"].astype(str) +
+        " | Driver: " + survey_df["Driver"].astype(str)
     )
 
     search_query = st.text_input(
@@ -136,10 +136,10 @@ if st.session_state.action == "update":
 
     # Filter rows that contain the search query (case-insensitive)
     if search_query:
-        filtered = final_df[
-            final_df["Vehicle  #"].astype(str).str.contains(search_query, case=False, na=False) |
-            final_df["VIN"].astype(str).str.contains(search_query, case=False, na=False) |
-            final_df["Driver"].astype(str).str.contains(search_query, case=False, na=False)
+        filtered = survey_df[
+            survey_df["Vehicle  #"].astype(str).str.contains(search_query, case=False, na=False) |
+            survey_df["VIN"].astype(str).str.contains(search_query, case=False, na=False) |
+            survey_df["Driver"].astype(str).str.contains(search_query, case=False, na=False)
         ]
     else:
         filtered = pd.DataFrame()  # No search, no results
@@ -157,7 +157,7 @@ if st.session_state.action == "update":
                 key="select_vehicle_label"
             )
             vin = filtered[filtered["search_label"] == selected_label]["VIN"].values[0]
-        existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
+        existing_record = survey_df[survey_df['VIN'] == vin] if vin else pd.DataFrame()
     else:
         existing_record = pd.DataFrame()
 
@@ -180,7 +180,6 @@ if st.session_state.action == "update":
             depts = get_value_or_prompt("Depts", existing_record)
             calvin_num = get_value_or_prompt("Calvin #", existing_record)
         else:
-            # If not being serviced, keep old values
             vehicle_num = existing_record["Vehicle  #"].values[0]
             year = existing_record["Year"].values[0]
             make = existing_record["Make"].values[0]
@@ -220,7 +219,6 @@ if st.session_state.action == "update":
             last_mileage = existing_record['Current Mileage'].values[0] if 'Current Mileage' in existing_record.columns else ""
             previous_lof = existing_record['Last LOF'].values[0] if 'Last LOF' in existing_record.columns else ""
 
-            # --- Use the edited values in your UPDATE ---
             c.execute('''
                 UPDATE final_cleaned SET
                     [Vehicle  #] = ?, Year = ?, Make = ?, Model = ?, Color = ?, [Vehicle] = ?, Title = ?, Driver = ?, Depts = ?, [Calvin #] = ?,
