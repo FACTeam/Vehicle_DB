@@ -10,6 +10,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.abspath(os.path.join(BASE_DIR, "mydata.db"))
 
+print("Using database at:", DB_PATH)
+
 if not os.path.exists(DB_PATH):
     raise FileNotFoundError(f"❌ Database not found at: {DB_PATH}")
 
