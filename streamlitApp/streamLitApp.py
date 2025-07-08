@@ -302,7 +302,12 @@ if st.button("Show Full Database", key="show_db_btn"):
 
 if st.session_state.show_db:
     st.markdown("### Full Vehicle Database")
-    st.dataframe(final_df)
+    # Always reload the latest data
+    final_df = load_data()
+    if "index" in final_df.columns:
+        st.dataframe(final_df.drop(columns=["index"]))
+    else:
+        st.dataframe(final_df)
 
 # ========== Download Most Recent Data ==========
 st.markdown("### Download Final Table")
