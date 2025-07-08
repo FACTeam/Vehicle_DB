@@ -10,7 +10,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.abspath(os.path.join(BASE_DIR, "mydata.db"))
 
-print("Using database at:", DB_PATH)
 
 if not os.path.exists(DB_PATH):
     raise FileNotFoundError(f"❌ Database not found at: {DB_PATH}")
@@ -37,8 +36,6 @@ def load_data():
     """Load all data from the final_cleaned table."""
     return pd.read_sql_query("SELECT * FROM final_cleaned", conn)
 
-final_df = load_data()
-
 # === UI Styling ===
 st.markdown(
     """
@@ -64,7 +61,6 @@ st.markdown(
         background-color: #C2002F;
         color: white;
     }
-    /* Make the expander header/button red */
     .streamlit-expanderHeader {
         background-color: #C2002F !important;
         color: white !important;
@@ -126,6 +122,7 @@ if st.session_state.action == "update":
     st.subheader("Update Existing Vehicle")
 
     # Combine Vehicle #, VIN, and Driver for search
+    final_df = load_data()
     final_df["search_label"] = (
         "Vehicle#: " + final_df["Vehicle  #"].astype(str) +
         " | VIN: " + final_df["VIN"].astype(str) +
@@ -254,10 +251,7 @@ if st.session_state.action == "update":
 
             conn.commit()
             st.success(f"✅ Update submitted for VIN: {vin}")
-            # Refresh data and show updated record
-            final_df = load_data()
-            st.write("Updated record:")
-            st.dataframe(final_df[final_df['VIN'] == vin])
+            st.experimental_rerun()  # <--- Force rerun to update the table
 
 elif st.session_state.action == "add":
     st.subheader("Add New Vehicle")
@@ -284,12 +278,12 @@ elif st.session_state.action == "add":
         mileage = st.number_input("Initial Mileage", min_value=0.0, key="initial_mileage_add")
         last_service = st.date_input("Initial Service Date", key="initial_service_date_add")
         service_status = st.selectbox("Service?", options=["Yes", "No"], key="service_status_add")
-        submitted = st.form_submit_button("Submit New Vehicle")  # <-- Removed key argument
+        submitted = st.form_submit_button("Submit New Vehicle")
         if submitted:
             # Input validation
             if not responses["VIN"]:
                 st.error("VIN is required.")
-            elif final_df['VIN'].eq(responses["VIN"]).any():
+            elif load_data()['VIN'].eq(responses["VIN"]).any():
                 st.error("A vehicle with this VIN already exists.")
             else:
                 try:
@@ -309,8 +303,7 @@ elif st.session_state.action == "add":
                     ))
                     conn.commit()
                     st.success(f"✅ New vehicle with VIN {responses['VIN']} added.")
-                    # Refresh data
-                    final_df = load_data()
+                    st.experimental_rerun()  # <--- Force rerun to update the table
                 except Exception as e:
                     st.error(f"Error adding vehicle: {e}")
 
@@ -320,13 +313,11 @@ st.markdown("---")
 if "show_db" not in st.session_state:
     st.session_state.show_db = False
 
-# Always show the same button text
 if st.button("Show Full Database", key="show_db_btn"):
     st.session_state.show_db = not st.session_state.show_db
 
 if st.session_state.show_db:
     st.markdown("### Full Vehicle Database")
-    # Always reload the latest data for display
     db_df = load_data()
     if "index" in db_df.columns:
         st.dataframe(db_df.drop(columns=["index"]))
