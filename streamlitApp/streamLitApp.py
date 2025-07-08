@@ -124,8 +124,35 @@ def get_value_or_prompt(field, df):
 
 if st.session_state.action == "update":
     st.subheader("Update Existing Vehicle")
-    vin_list = sorted(final_df['VIN'].dropna().unique().tolist())
-    vin = st.selectbox("Select VIN to update", options=[""] + vin_list, key="select_vin_update")
+
+    # Combine Vehicle #, VIN, and Driver for search
+    final_df["search_label"] = (
+        "Vehicle#: " + final_df["Vehicle  #"].astype(str) +
+        " | VIN: " + final_df["VIN"].astype(str) +
+        " | Driver: " + final_df["Driver"].astype(str)
+    )
+
+    search_query = st.text_input(
+        "Search by Vehicle #, VIN, or Driver",
+        key="vehicle_search"
+    )
+
+    # Filter rows that contain the search query (case-insensitive)
+    if search_query:
+        filtered = final_df[
+            final_df["Vehicle  #"].astype(str).str.contains(search_query, case=False, na=False) |
+            final_df["VIN"].astype(str).str.contains(search_query, case=False, na=False) |
+            final_df["Driver"].astype(str).str.contains(search_query, case=False, na=False)
+        ]
+    else:
+        filtered = final_df
+cd
+    # Let user pick from filtered results
+    vin = st.selectbox(
+        "Select Vehicle to update",
+        options=[""] + filtered["VIN"].dropna().unique().tolist(),
+        key="select_vin_update"
+    )
     existing_record = final_df[final_df['VIN'] == vin] if vin else pd.DataFrame()
 
     if not existing_record.empty:
