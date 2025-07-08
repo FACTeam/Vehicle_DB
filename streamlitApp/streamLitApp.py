@@ -104,23 +104,18 @@ with col2:
 
 st.divider()
 
-def get_value_or_prompt(field, df):
+def get_value_or_prompt(field, df, number=False):
     """
     Get a value from df or prompt for input.
-    Editable if value is missing/null/empty.
+    Always editable, pre-filled if value exists.
+    If number=True, use number_input, else text_input.
     """
-    if (
-        df.empty
-        or field not in df.columns
-        or not pd.notna(df[field].values[0])
-        or str(df[field].values[0]).strip() == ""
-    ):
-        val = ""
-        editable = True
+    val = df[field].values[0] if (not df.empty and field in df.columns and pd.notna(df[field].values[0])) else ""
+    if number:
+        # For year, force integer
+        return st.number_input(field, value=int(val) if str(val).isdigit() else 0, step=1, format="%d", key=f"{field}_update")
     else:
-        val = df[field].values[0]
-        editable = False
-    return st.text_input(field, value=val, disabled=not editable, key=f"{field}_update")
+        return st.text_input(field, value=str(val), key=f"{field}_update")
 
 if st.session_state.action == "update":
     st.subheader("Update Existing Vehicle")
@@ -173,7 +168,7 @@ if st.session_state.action == "update":
 
         if service_status == "Yes":
             get_value_or_prompt("Vehicle  #", existing_record)
-            get_value_or_prompt("Year", existing_record)
+            get_value_or_prompt("Year", existing_record, number=True)  # Make year editable integer
             get_value_or_prompt("Make", existing_record)
             get_value_or_prompt("Model", existing_record)
             get_value_or_prompt("Color", existing_record)
