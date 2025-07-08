@@ -31,7 +31,6 @@ def ensure_column(name, dtype):
 ensure_column("Tires Changed?", "TEXT")
 ensure_column("Tire Change Date", "TEXT")
 
-@st.cache_data
 def load_data():
     """Load all data from the final_cleaned table."""
     return pd.read_sql_query("SELECT * FROM final_cleaned", conn)
